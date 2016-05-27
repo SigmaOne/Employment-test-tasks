@@ -1,0 +1,8 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+
+krasnodar:
+  name: Krasnodar
+
+chita:
+  name: Chita
