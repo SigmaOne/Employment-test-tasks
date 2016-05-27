@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160526101107) do
+ActiveRecord::Schema.define(version: 20160527114801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,24 @@ ActiveRecord::Schema.define(version: 20160526101107) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.integer  "discussion_id"
+    t.text     "content"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "user_id"
+    t.index ["discussion_id"], name: "index_comments_on_discussion_id", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
+  end
+
+  create_table "discussions", force: :cascade do |t|
+    t.string   "topic"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "event_id"
+    t.index ["event_id"], name: "index_discussions_on_event_id", using: :btree
   end
 
   create_table "events", force: :cascade do |t|
@@ -33,5 +51,26 @@ ActiveRecord::Schema.define(version: 20160526101107) do
     t.index ["city_id"], name: "index_events_on_city_id", using: :btree
   end
 
+  create_table "filters", force: :cascade do |t|
+    t.string  "name"
+    t.integer "city_id"
+    t.date    "start_date"
+    t.date    "end_date"
+    t.index ["city_id"], name: "index_filters_on_city_id", using: :btree
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "filter_id"
+    t.index ["filter_id"], name: "index_users_on_filter_id", using: :btree
+  end
+
+  add_foreign_key "comments", "discussions"
+  add_foreign_key "comments", "users"
+  add_foreign_key "discussions", "events"
   add_foreign_key "events", "cities"
+  add_foreign_key "filters", "cities"
+  add_foreign_key "users", "filters"
 end
