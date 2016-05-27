@@ -29,6 +29,9 @@ ActiveRecord::Schema.define(version: 20160526101107) do
     t.string   "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "city_id"
+    t.index ["city_id"], name: "index_events_on_city_id", using: :btree
   end
 
+  add_foreign_key "events", "cities"
 end

@@ -4,5 +4,8 @@ class CreateCities < ActiveRecord::Migration[5.0]
       t.string :name
       t.timestamps null: false
     end
+
+    # Add city_id foreign_key to events
+    add_reference :events, :city, index: true, foreign_key: true
   end
 end
