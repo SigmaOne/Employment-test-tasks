@@ -5,7 +5,7 @@ class CityTest < ActiveSupport::TestCase
     @city = City.new
   end
 
-  test 'City should be unique, not nll and not case sensitive' do
+  test 'City should be unique not case sensitive and not nll ' do
     city_to_save = City.new
     assert_not_nil city_to_save
     city_to_save.name = ''

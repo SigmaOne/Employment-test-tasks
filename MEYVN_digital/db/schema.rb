@@ -53,18 +53,19 @@ ActiveRecord::Schema.define(version: 20160527114801) do
 
   create_table "filters", force: :cascade do |t|
     t.string  "name"
+    t.string  "event_name"
     t.integer "city_id"
+    t.integer "user_id"
     t.date    "start_date"
     t.date    "end_date"
     t.index ["city_id"], name: "index_filters_on_city_id", using: :btree
+    t.index ["user_id"], name: "index_filters_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "filter_id"
-    t.index ["filter_id"], name: "index_users_on_filter_id", using: :btree
   end
 
   add_foreign_key "comments", "discussions"
@@ -72,5 +73,5 @@ ActiveRecord::Schema.define(version: 20160527114801) do
   add_foreign_key "discussions", "events"
   add_foreign_key "events", "cities"
   add_foreign_key "filters", "cities"
-  add_foreign_key "users", "filters"
+  add_foreign_key "filters", "users"
 end

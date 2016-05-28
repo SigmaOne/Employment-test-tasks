@@ -1,9 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  discussion: one
-  content: MyText
-
-two:
-  discussion: two
-  content: MyText
+comment_1:
+  user: user_1
+  discussion: discussion_1
+  content: It's so ok!
