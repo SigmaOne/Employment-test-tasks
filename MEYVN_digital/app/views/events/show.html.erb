@@ -1,0 +1,17 @@
+<%= render @event %>
+
+<% if @event.discussions.any? %>
+    <h5>Discussions:</h5>
+    <% @event.discussions.each_with_index do |d, i| %>
+        <%= link_to( d.topic, event_discussion_path(@event, i + 1)) %> <br/>
+    <% end %>
+<% else %>
+    <h5>No discussions yet!</h5>
+<% end %>
+
+<br/>
+Have something to discuss?
+<%= link_to 'Create new discussion', new_event_discussion_path(@event), style: 'color: red;j' %>
+
+<br/>
+<%= link_to 'Back to all events', events_path %>

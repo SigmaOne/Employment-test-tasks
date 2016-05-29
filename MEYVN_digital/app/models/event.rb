@@ -7,7 +7,6 @@ class Event < ApplicationRecord
   validates :city, presence: true
   validate  :end_date_is_after_start_date_if_present
 
-
   private
   def end_date_is_after_start_date_if_present
     if start_date && end_date && end_date < start_date

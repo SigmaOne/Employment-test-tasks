@@ -1,0 +1,8 @@
+<div>
+  <h1><%= discussion.topic %></h1>
+
+  <% if discussion.comments.any? %>
+    <h4>Comments:</h4>
+    <%= render discussion.comments %>
+  <% end %>
+</div>

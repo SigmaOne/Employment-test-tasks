@@ -1,0 +1,9 @@
+<h2>New Discussion</h2>
+<%= form_for @discussion, url: event_discussions_path do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+    Topic: <br/>
+    <%= f.text_field :topic %>
+
+    <%= f.submit 'Create' %>
+<% end %>

@@ -1,0 +1,16 @@
+<div>
+  <h1><%= @discussion.topic %></h1>
+
+  <% if @discussion.comments.any? %>
+      <h4>Comments:</h4>
+      <% @discussion.comments.each do |c| %>
+        <div class="comment">
+          <h4><%= c.user.name %></h4>
+          <h6><%= c.created_at %></h6>
+          <p><%= c.content %></p>
+        </div>
+      <% end %>
+  <% end %>
+
+<%= link_to 'back', event_path(@discussion.event) %>
+</div>

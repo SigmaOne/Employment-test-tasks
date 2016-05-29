@@ -1,0 +1,17 @@
+<div class="event">
+  <h1><%= link_to event.name, event_path(event) %></h1>
+  City: <%= event.city.name %> <br/>
+  Address: <%= event.address unless event.address.nil? %><br/>
+
+  <% unless event.start_date.nil? %>
+      period: {<%= time_ago_in_words(event.start_date) %>}
+    <% unless event.end_date.nil? %>
+      - {<%= time_ago_in_words(event.end_date) %>}
+    <% end %>
+  <% end %>
+
+  <p>
+    Description:<br/>
+    <%= event.description %>
+  </p>
+</div>
