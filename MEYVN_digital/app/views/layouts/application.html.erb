@@ -9,9 +9,12 @@
   </head>
 
   <body>
-    <%= yield %>
-    <br/><br/><br/>
-    ---------------------------------------------
-    <%= debug(params) if Rails.env.development? %>
+    <div class="container col-md-6 col-md-offset-3">
+      <%= yield %>
+
+      <br/><br/><br/>
+      <%= '-'*124 %>
+      <%= debug(params) if Rails.env.development? %>
+    </div>
   </body>
 </html>
