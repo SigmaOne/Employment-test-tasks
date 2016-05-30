@@ -10,7 +10,38 @@
 
   <body>
     <div class="container col-md-6 col-md-offset-3">
-      <%= yield %>
+      <nav class="navbar navbar-inverse">
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li><%= link_to 'Home', root_path %></li>
+          </ul>
+          <ul class="nav navbar-nav">
+            <li><%= link_to 'Events', events_path %></li>
+          </ul>
+          <ul class="nav navbar-nav pull-right">
+            <% if user_signed_in? %>
+              <li><%= link_to 'Profile', edit_user_registration_path %></li>
+              <li><%= link_to 'Log out', destroy_user_session_path, method: :delete %></li>
+            <% else %>
+              <li><%= link_to 'Log In', new_user_session_path %></li>
+              <li><%= link_to 'Sign Up', new_user_registration_path %></li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
+      <div class="flash">
+        <% flash.each do |key, value| %>
+            <div class="alert alert-<%= key %>">
+              <%= value %>
+            </div>
+        <% end %>
+      </div>
+      <div class="top">
+        <%= yield :top_content %>
+      </div>
+      <div class="content">
+        <%= yield %>
+      </div>
 
       <br/><br/><br/>
       <%= '-'*124 %>
