@@ -1,4 +1,6 @@
 class DiscussionsController < ApplicationController
+  before_action :authenticate_user!
+
   def show
     event = Event.find(params[:event_id])
     @discussion = event.discussions.to_a[params[:id].to_i - 1]
