@@ -1,0 +1,11 @@
+<h1>My filters!</h1>
+
+<% if @user.saved_filters.empty? %>
+  You have no filters! SO, how do you gonna use this service?<br/>
+  <%= link_to 'Add new filter', new_user_filter_path(@user) %>
+<% else %>
+  <%= link_to 'Add new filter', new_user_filter_path(@user) %>
+  <br/>
+  <%= render @user.saved_filters %>
+<% end %>
+

@@ -15,9 +15,14 @@
           <ul class="nav navbar-nav">
             <li><%= link_to 'Home', root_path %></li>
           </ul>
-          <ul class="nav navbar-nav">
-            <li><%= link_to 'Events', events_path %></li>
-          </ul>
+          <% if user_signed_in? %>
+            <ul class="nav navbar-nav">
+              <li><%= link_to 'Events', events_path %></li>
+            </ul>
+            <ul class="nav navbar-nav">
+              <li><%= link_to 'My filters', user_filters_path(current_user) %></li>
+            </ul>
+          <% end %>
           <ul class="nav navbar-nav pull-right">
             <% if user_signed_in? %>
               <li><%= link_to 'Profile', edit_user_registration_path %></li>
@@ -36,15 +41,12 @@
             </div>
         <% end %>
       </div>
-      <div class="top">
-        <%= yield :top_content %>
-      </div>
       <div class="content">
         <%= yield %>
       </div>
 
       <br/><br/><br/>
-      <%= '-'*124 %>
+      <hr/>
       <%= debug(params) if Rails.env.development? %>
     </div>
   </body>

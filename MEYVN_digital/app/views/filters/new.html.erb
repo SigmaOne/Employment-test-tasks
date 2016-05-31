@@ -1,0 +1,21 @@
+<h2>New Filter</h2>
+<%= form_for @filter, url: user_filters_path do |f| %>
+    <%= render 'shared/error_messages', object: @filter %>
+
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'form-control' %><br/>
+
+    <%= f.label :event_name %>
+    <%= f.text_field :event_name, class: 'form-control' %><br/>
+
+    <%= f.label :city %>
+    <%= f.collection_select :city_id, City.all, :id, :name, include_blank: true, class: 'form-control' %> <br/><br/>
+
+    <%= f.label :start_date %>
+    <%= f.date_field :start_date, class: 'form-control' %><br/>
+
+    <%= f.label :end_date %>
+    <%= f.date_field :end_date, class: 'form-control' %>#make it fade out whtn start_date is empty<br/><br/>
+
+    <%= f.submit 'Create' %>
+<% end %>

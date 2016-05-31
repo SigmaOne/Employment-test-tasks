@@ -3,17 +3,17 @@ class Filter < ApplicationRecord
   belongs_to :user
 
   validates :name, presence: true
-  validates :event_name, presence: true, allow_nil: true
-  validates :city, presence: true, allow_nil: true
-  validates :start_date, presence: true, allow_nil: true
-  validates :end_date, presence: true, allow_nil: true
   validate :filter_not_empty
   validate :end_date_is_after_start_date
 
   private
   def filter_not_empty
-    if city.nil? && start_date.nil? && end_date.nil? && event_name.nil?
-        errors.add(:Filter, "Filter can't be empty")
+    c = city
+    s = start_date
+    e = end_date
+    ev = event_name
+    if !city && !start_date && !end_date && event_name.blank?
+        errors.add(:Filter, "Can't have all except gis name name empty")
     end
   end
   def end_date_is_after_start_date

@@ -1,0 +1,23 @@
+<div class="filter">
+  <h1><%= filter.name %></h1>
+
+  Event name:<br/>
+  <%= filter.event_name %> <br/>
+
+  City:<br/>
+  <%= filter.city.name %><br/>
+
+  start_date:<br/>
+  <% if filter.start_date %>
+    <%= time_ago_in_words(filter.start_date) %>
+  <% else %>
+    none
+  <% end %><br/>
+
+  end_date:<br/>
+  <% if filter.start_date %>
+    <%= time_ago_in_words(filter.end_date) %>
+  <% else %>
+    none
+  <% end %><br/>
+</div>
