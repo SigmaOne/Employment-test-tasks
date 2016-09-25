@@ -9,6 +9,7 @@
 
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
+apply plugin: 'eclipse'
 apply plugin: 'application'
 mainClassName = "sigmaone.Program"
 
@@ -29,4 +30,9 @@ dependencies {
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
     // 'test.useTestNG()' to your build script.
     testCompile 'junit:junit:4.12'
+
+    // Jface - https://mvnrepository.com/artifact/org.mod4j.org.eclipse/jface
+    compile group: 'org.mod4j.org.eclipse', name: 'jface', version: '3.5.0'
+    // eclipsese swt
+    compile "org.eclipse:swt:3.3.0-v3346"
 }
