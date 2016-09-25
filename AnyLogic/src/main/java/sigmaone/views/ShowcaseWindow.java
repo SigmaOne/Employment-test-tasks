@@ -1,33 +1,32 @@
 package sigmaone.views;
 
+import sigmaone.models.Shape;
+import sigmaone.views.components.ModelItem;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 /**
  * Main window, which shows all the added figures and their main properties
  */
-public class ShowcaseWindow {
-    private JFrame mainFrame;
+public class ShowcaseWindow extends JFrame {
+    private ArrayList<Shape> addedShapes;
 
-    public ShowcaseWindow() {
-        mainFrame = new JFrame("AnyLogic test task");
-        mainFrame.setSize(600, 600);
-        mainFrame.setLayout(new GridLayout(3, 3));
+    public ShowcaseWindow(String headerText, ArrayList<Shape> addedShapes) {
+        super(headerText);
+        this.setSize(600, 600);
+        this.setLayout(new GridLayout(3, 3));
 
-        mainFrame.setJMenuBar(constructMenu());
+        // Construct menu
+        this.setJMenuBar(constructMenu());
 
-        mainFrame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent windowEvent) {
-                System.exit(0);
-            }
-        });
-    }
-
-    public void setVisible() {
-        mainFrame.setVisible(true);
+        // Construct models table
+        this.addedShapes = addedShapes;
+        for(Shape shape: addedShapes) {
+            ModelItem item = new ModelItem(shape);
+            this.add(item);
+        }
     }
 
     private JMenuBar constructMenu() {
