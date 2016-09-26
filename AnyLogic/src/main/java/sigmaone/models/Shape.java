@@ -7,13 +7,10 @@ import java.util.Map;
  */
 public interface Shape {
     String getName();
+    String getType();
     double getX();
     double getY();
 
-    default String getType() {
-        return this.getClass().getTypeName();
-    }
-
     // Method to get all the custom model's attributemodel's. Is needed for ModelItem class
-    Map<String, Object> getAttributesMap();
+    Map<String, Object> getPropertiesMap();
 }

@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 /**
@@ -28,8 +29,6 @@ public class MainWindow extends JFrame {
         // Construct models table
         table = constructTable(addedShapes);
         this.add(table);
-
-        this.setVisible(true);
     }
 
     // View constructors
@@ -91,9 +90,12 @@ public class MainWindow extends JFrame {
         JMenu menu = menuBar.getMenu(1);
         menu.getItem(menu.getItemCount() - 1).addActionListener(listener);
     }
+    public void setTableClickListener(MouseListener listener) {
+        table.addMouseListener(listener);
+    }
 
-    // Row manipulation
-    public int getSelectedRow() {
+    // Table entry manipulation
+    public int getSelectedRowIndex() {
         return table.getSelectedRow();
     }
     public void removeRow(int index) {

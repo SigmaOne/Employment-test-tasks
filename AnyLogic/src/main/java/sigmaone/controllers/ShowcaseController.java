@@ -4,6 +4,11 @@ import sigmaone.models.Oval;
 import sigmaone.models.Rectangle;
 import sigmaone.models.Shape;
 import sigmaone.views.MainWindow;
+import sigmaone.views.PropertiesWindow;
+
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -17,6 +22,7 @@ public class ShowcaseController {
 
         mainWindow = new MainWindow("AnyLogic test task", shapes);
         AddViewListeners(mainWindow);
+        mainWindow.setVisible(true);
     }
 
     private void AddViewListeners(MainWindow showcaseWindow) {
@@ -33,10 +39,26 @@ public class ShowcaseController {
         );
         showcaseWindow.setRemoveMenuActionListener(
             actionEvent -> {
-                int selectedRow = mainWindow.getSelectedRow();
+                int selectedRow = mainWindow.getSelectedRowIndex();
                 shapes.remove(selectedRow);
                 mainWindow.removeRow(selectedRow);
             }
+        );
+        showcaseWindow.setTableClickListener(
+            new MouseAdapter() {
+                 public void mousePressed(MouseEvent me) {
+                     JTable table =(JTable) me.getSource();
+
+                     // Point p = me.getPoint();
+                     // int rowIndex = table.rowAtPoint(p);
+
+                     if (me.getClickCount() == 2) {
+                         int i = mainWindow.getSelectedRowIndex();
+                         Shape model = shapes.get(i);
+                         new PropertiesWindow("Edit '" + model.getName() + "'", model).setVisible(true);
+                     }
+                 }
+             }
         );
     }
 
