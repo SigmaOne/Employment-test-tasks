@@ -1,19 +1,18 @@
 package sigmaone.models;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.Map;
 
 public class Oval implements Shape {
     private String name;
-    private Point center;
+    private Point2D.Double center;
     private double width, height;
     private boolean isCircle;
 
-    public Oval(String name, int x, int y, double width, double height) {
+    public Oval(String name, double x, double y, double width, double height) {
         this.name = name;
-        this.center = new Point(x, y);
+        this.center = new Point2D.Double(x, y);
         this.width = width;
         this.height = height;
 
