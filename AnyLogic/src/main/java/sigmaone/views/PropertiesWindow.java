@@ -5,43 +5,37 @@ import sigmaone.models.Shape;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
  * Window to edit added models
  */
 public class PropertiesWindow extends JFrame {
-    private JTable table;
     private Shape model;
 
     public PropertiesWindow(String headerText, Shape model) {
         super(headerText);
         this.setSize(200, 300);
-        this.setLayout(new GridLayout(3, 6));
 
         this.model = model;
-        this.table = constructTable(model);
-        this.add(table);
+        constructTable(model);
     }
 
-    private JTable constructTable(Shape model) {
+    private void constructTable(Shape model) {
         Map<String, Object> properties = model.getPropertiesMap();
 
-        String[] columnNames = { "Name", "Value" };
-        Object[][] data = new Object[properties.size()][columnNames.length];
+        // Setup layout
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
 
-        int i = 0;
         for(Map.Entry<String, Object> entry : properties.entrySet()) {
-            data[i][0] = entry.getKey();
-            data[i][1] = entry.getValue();
-            i++;
+            JLabel label = new JLabel(entry.getKey());
+            // Todo: consider different handlers switched by value type
+            JTextField field = new JTextField(entry.getValue().toString());
+            layout.setHorizontalGroup(layout.createSequentialGroup().addComponent(label).addComponent(field));
         }
-
-        JTable table = new JTable(new DefaultTableModel(data, columnNames));
-
-        // Make keys readonly
-        // table.setDefaultEditor(table.getColumnClass(0), null);
-
-        return table;
     }
 }
