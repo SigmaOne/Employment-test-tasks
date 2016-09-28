@@ -1,6 +1,6 @@
 package sigmaone.views;
 
-import sigmaone.models.Shape;
+import sigmaone.models.Model;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class MainWindow extends JFrame {
     private JMenuBar menuBar;
     private JTable table;
 
-    public MainWindow(String headerText, ArrayList<Shape> addedShapes) {
+    public MainWindow(String headerText, ArrayList<Model> addedShapes) {
         super(headerText);
         this.setSize(600, 600);
         this.setLayout(new GridLayout(3, 3));
@@ -47,8 +47,6 @@ public class MainWindow extends JFrame {
         // Create and add "Model" menu item
         JMenu modelMenu = new JMenu("Model");
         ArrayList<JMenuItem> modelMenuItems = new ArrayList() {{
-            add(new JMenuItem("Create Rectangle Model"));
-            add(new JMenuItem("Create Oval Model"));
             add(new JMenuItem("Remove"));
         }};
         for(JMenuItem menuItem: modelMenuItems)
@@ -57,7 +55,7 @@ public class MainWindow extends JFrame {
 
         return menuBar;
     }
-    private JTable constructTable(ArrayList<Shape> shapes) {
+    private JTable constructTable(ArrayList<Model> shapes) {
         String[] columnNames = { "Name", "Type", "X", "Y" };
         Object[][] data = new Object[shapes.size()][columnNames.length];
 
@@ -77,6 +75,9 @@ public class MainWindow extends JFrame {
         }
 
         return table;
+    }
+    public void addModelMenuItem(JMenuItem menuItem) {
+        menuBar.getMenu(1).add(menuItem);
     }
 
     // Add listeners

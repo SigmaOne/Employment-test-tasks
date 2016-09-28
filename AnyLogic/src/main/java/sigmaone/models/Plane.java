@@ -3,17 +3,18 @@ package sigmaone.models;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Rectangle implements Model {
+public class Plane implements Model {
     private HashMap<String, Object> properties = new HashMap<>();
 
-    public Rectangle(String name, double x, double y, double width, double height) {
-        properties.put("width", width);
-        properties.put("height", height);
-
-        properties.put("y", y);
-        properties.put("x", x);
-        properties.put("type", this.getClass().getSimpleName());
+    public Plane(String name, double x, double y) {
         properties.put("name", name);
+        properties.put("type", this.getClass().getSimpleName());
+        properties.put("x", x);
+        properties.put("y", y);
+
+        properties.put("MaxSpeed", 100500);
+        properties.put("Weight", 1560);
+        properties.put("People capasity", 60);
     }
 
     @Override

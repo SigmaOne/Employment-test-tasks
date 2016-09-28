@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Generic interface for all the models
  */
-public interface Shape {
+public interface Model {
     String getName();
     String getType();
     double getX();

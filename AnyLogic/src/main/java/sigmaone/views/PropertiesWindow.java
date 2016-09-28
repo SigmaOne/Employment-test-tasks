@@ -1,6 +1,6 @@
 package sigmaone.views;
 
-import sigmaone.models.Shape;
+import sigmaone.models.Model;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,19 +12,20 @@ import java.util.Map;
  */
 public class PropertiesWindow extends JFrame {
     private JTable table;
-    private Shape model;
+    private Model model;
 
-    public PropertiesWindow(String headerText, Shape model) {
+    // Todo: make all fields have fixed ordering
+    public PropertiesWindow(String headerText, Model model) {
         super(headerText);
         this.setSize(200, 300);
-        this.setLayout(new GridLayout(3, 6));
+        this.setLayout(new GridLayout(1, 1));
 
         this.model = model;
         this.table = constructTable(model);
         this.add(table);
     }
 
-    private JTable constructTable(Shape model) {
+    private JTable constructTable(Model model) {
         Map<String, Object> properties = model.getPropertiesMap();
 
         String[] columnNames = { "Name", "Value" };

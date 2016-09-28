@@ -3,20 +3,19 @@ package sigmaone.models;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Oval implements Shape {
+public class Oval implements Model {
     private HashMap<String, Object> properties = new HashMap<>();
     private boolean isCircle = false;
 
     public Oval(String name, double x, double y, double width, double height) {
-        properties.put("name", name);
-        properties.put("type", this.getClass().getSimpleName());
-        properties.put("x", x);
-        properties.put("y", y);
-
-        properties.put("height", height);
         properties.put("width", width);
-
+        properties.put("height", height);
         isCircle = (width == height);
+
+        properties.put("y", y);
+        properties.put("x", x);
+        properties.put("type", this.getClass().getSimpleName());
+        properties.put("name", name);
     }
 
     @Override
