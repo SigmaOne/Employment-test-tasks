@@ -11,11 +11,11 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class ShowcaseController {
+public class MainController {
     private MainWindow mainWindow;      // View
     private ArrayList<Model> shapes;    // Model
 
-    public ShowcaseController() {
+    public MainController() {
         shapes = prepareTestShapes();
 
         mainWindow = new MainWindow("AnyLogic test task", shapes);
@@ -53,9 +53,27 @@ public class ShowcaseController {
                      // int rowIndex = table.rowAtPoint(p);
 
                      if (me.getClickCount() == 2) {
-                         int i = ShowcaseController.this.mainWindow.getSelectedRowIndex();
+                         int i = MainController.this.mainWindow.getSelectedRowIndex();
                          Model model = shapes.get(i);
-                         new PropertiesWindow("Edit '" + model.getName() + "'", model).setVisible(true);
+                         PropertiesWindow propertiesWindow = new PropertiesWindow("Edit '" + model.getName() + "'", model);
+                         propertiesWindow.addCancelButtonListener(
+                             new ActionListener() {
+                                 @Override
+                                 public void actionPerformed(ActionEvent actionEvent) {
+                                     propertiesWindow.dispose();
+                                 }
+                             }
+                         );
+                         propertiesWindow.addAcceptButtonListener(
+                             new ActionListener() {
+                                 @Override
+                                 public void actionPerformed(ActionEvent actionEvent) {
+                                     // Todo: add logic
+                                 }
+                             }
+                         );
+
+                         propertiesWindow.setVisible(true);
                      }
                  }
              }

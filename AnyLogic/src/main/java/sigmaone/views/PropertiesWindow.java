@@ -1,48 +1,81 @@
 package sigmaone.views;
 
 import sigmaone.models.Model;
-
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Map;
 
 /**
  * Window to edit added models
  */
 public class PropertiesWindow extends JFrame {
-    private JTable table;
     private Model model;
+    private JButton acceptButton = new JButton("Accept");
+    private JButton cancelButton = new JButton("Cancel");
 
     // Todo: make all fields have fixed ordering
     public PropertiesWindow(String headerText, Model model) {
         super(headerText);
-        this.setSize(200, 300);
-        this.setLayout(new GridLayout(1, 1));
+        this.setSize(600, 600);
+        this.setLayout(new GridBagLayout());
 
         this.model = model;
-        this.table = constructTable(model);
-        this.add(table);
-    }
 
-    private JTable constructTable(Model model) {
-        Map<String, Object> properties = model.getPropertiesMap();
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        String[] columnNames = { "Name", "Value" };
-        Object[][] data = new Object[properties.size()][columnNames.length];
+        // Add little separator at the top
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        this.add(new JLabel(model.getName() + "'s properties"), gbc);
 
-        int i = 0;
-        for(Map.Entry<String, Object> entry : properties.entrySet()) {
-            data[i][0] = entry.getKey();
-            data[i][1] = entry.getValue();
-            i++;
+        // Add all fields
+        gbc.gridwidth = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(1, 10, 0, 10);
+        gbc.gridy++;
+
+        for(Map.Entry<String, Object> entry : model.getPropertiesMap().entrySet()) {
+            gbc.gridx = 0;
+            this.add(new JLabel(entry.getKey()), gbc);
+            gbc.gridx = 1;
+            this.add(new JTextField(entry.getValue().toString()), gbc);
+
+            gbc.gridy++;
         }
 
-        JTable table = new JTable(new DefaultTableModel(data, columnNames));
+        // Add buttons
+        gbc.insets = new Insets(20, 10, 10, 10);
+        gbc.gridx = 0;
 
-        // Make keys readonly
-        // table.setDefaultEditor(table.getColumnClass(0), null);
+        this.add(acceptButton, gbc);
+        gbc.gridx = 1;
+        this.add(cancelButton, gbc);
 
-        return table;
+        this.pack();
+    }
+
+    public void addAcceptButtonListener(ActionListener listener) {
+        acceptButton.addActionListener(listener);
+    }
+    public void addCancelButtonListener(ActionListener listener) {
+        cancelButton.addActionListener(listener);
+    }
+
+//    public Model getResultedModel() {
+//        this.
+//        return model;
+//    }
+
+    @Override
+    public void setVisible(boolean key) {
+//        if (acceptButton.getActionListeners().length == 0 )
+//            throw new Exception("No Listener fo Accept Button provided");
+//        if (cancelButton.getActionListeners().length == 0)
+//            throw new Exception("No Listener fo Cancel Button provided");
+
+        super.setVisible(key);
     }
 }

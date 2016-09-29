@@ -5,6 +5,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -20,7 +21,7 @@ public class MainWindow extends JFrame {
     public MainWindow(String headerText, ArrayList<Model> addedShapes) {
         super(headerText);
         this.setSize(600, 600);
-        this.setLayout(new GridLayout(3, 3));
+        this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
         // Construct menu
         menuBar = constructMenuBar();
@@ -28,7 +29,11 @@ public class MainWindow extends JFrame {
 
         // Construct models table
         table = constructTable(addedShapes);
+        JTableHeader tableHeader = table.getTableHeader();
+        tableHeader.setBackground(Color.LIGHT_GRAY);
+        this.add(tableHeader);
         this.add(table);
+        this.pack();
     }
 
     // View constructors
@@ -83,9 +88,6 @@ public class MainWindow extends JFrame {
     // Add listeners
     public void setExitMenuActionListener(ActionListener listener) {
         menuBar.getMenu(0).getItem(0).addActionListener(listener);
-    }
-    public void setCreateModelMenuActionListener(Class modelClass, ActionListener listener) {
-        throw new NotImplementedException();
     }
     public void setRemoveMenuActionListener(ActionListener listener) {
         JMenu menu = menuBar.getMenu(1);

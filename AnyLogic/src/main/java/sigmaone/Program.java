@@ -1,12 +1,12 @@
 package sigmaone;
 
-import sigmaone.controllers.ShowcaseController;
+import sigmaone.controllers.MainController;
 
 /**
  * Entry point for an application
  */
 public class Program {
     public static void main(String[] args) {
-        new ShowcaseController();
+        new MainController();
     }
 }
