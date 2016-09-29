@@ -20,7 +20,6 @@ public class MainWindow extends JFrame {
 
     public MainWindow(String headerText, ArrayList<Model> addedShapes) {
         super(headerText);
-        this.setSize(600, 600);
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
         // Construct menu
@@ -33,6 +32,7 @@ public class MainWindow extends JFrame {
         tableHeader.setBackground(Color.LIGHT_GRAY);
         this.add(tableHeader);
         this.add(table);
+
         this.pack();
     }
 
@@ -40,7 +40,7 @@ public class MainWindow extends JFrame {
     private JMenuBar constructMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
-        // Create and add "File" menu item
+        // Add "File" menu item
         JMenu fileMenu = new JMenu("File");
         ArrayList<JMenuItem> fileMenuItems = new ArrayList() {{
             add(new JMenuItem("Exit"));
@@ -49,7 +49,7 @@ public class MainWindow extends JFrame {
             fileMenu.add(menuItem);
         menuBar.add(fileMenu);
 
-        // Create and add "Model" menu item
+        // Add "Model" menu item
         JMenu modelMenu = new JMenu("Model");
         ArrayList<JMenuItem> modelMenuItems = new ArrayList() {{
             add(new JMenuItem("Remove"));
@@ -60,18 +60,9 @@ public class MainWindow extends JFrame {
 
         return menuBar;
     }
-    private JTable constructTable(ArrayList<Model> shapes) {
-        String[] columnNames = { "Name", "Type", "X", "Y" };
-        Object[][] data = new Object[shapes.size()][columnNames.length];
-
-        for(int i = 0; i < shapes.size(); i++) {
-            data[i][0] = shapes.get(i).getName();
-            data[i][1] = shapes.get(i).getType();
-            data[i][2] = shapes.get(i).getX();
-            data[i][3] = shapes.get(i).getY();
-        }
-
-        JTable table = new JTable(new DefaultTableModel(data, columnNames));
+    private JTable constructTable(ArrayList<Model> models) {
+        this.table = new JTable();
+        updateTable(models);
 
         // Make table readonly
         for (int c = 0; c < table.getColumnCount(); c++) {
@@ -81,15 +72,17 @@ public class MainWindow extends JFrame {
 
         return table;
     }
-    public void addModelMenuItem(JMenuItem menuItem) {
+    // Add new Menu Item to Menu. e.g. "Create Rectangle model"
+    public void addCreateModelMenuItem(JMenuItem menuItem) {
         menuBar.getMenu(1).add(menuItem);
     }
 
-    // Add listeners
+    // Add action listeners
     public void setExitMenuActionListener(ActionListener listener) {
         menuBar.getMenu(0).getItem(0).addActionListener(listener);
     }
     public void setRemoveMenuActionListener(ActionListener listener) {
+        // Todo: move remove down
         JMenu menu = menuBar.getMenu(1);
         menu.getItem(menu.getItemCount() - 1).addActionListener(listener);
     }
@@ -103,5 +96,20 @@ public class MainWindow extends JFrame {
     }
     public void removeRow(int index) {
         ((DefaultTableModel)table.getModel()).removeRow(index);
+    }
+    public void updateTable(ArrayList<Model> models) {
+        String[] columnNames = { "Name", "Type", "X", "Y" };
+        Object[][] data = new Object[models.size()][columnNames.length];
+
+        for(int i = 0; i < models.size(); i++) {
+            data[i][0] = models.get(i).getName();
+            data[i][1] = models.get(i).getType();
+            data[i][2] = models.get(i).getX();
+            data[i][3] = models.get(i).getY();
+        }
+
+        DefaultTableModel newTableModel = new DefaultTableModel(data, columnNames);
+        this.table.setModel(newTableModel);
+        newTableModel.fireTableDataChanged();
     }
 }

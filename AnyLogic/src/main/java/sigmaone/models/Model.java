@@ -11,6 +11,7 @@ public interface Model {
     double getX();
     double getY();
 
-    // Method to get all the custom model's attributemodel's. Is needed for ModelItem class
+    // Method to get all the custom model's attributes. Is needed for PropertyWindow class
     Map<String, Object> getPropertiesMap();
+    void updateProperty(String key, String value);
 }

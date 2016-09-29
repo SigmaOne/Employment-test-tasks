@@ -7,6 +7,6 @@ import sigmaone.controllers.MainController;
  */
 public class Program {
     public static void main(String[] args) {
-        new MainController();
+        new MainController().run();
     }
 }

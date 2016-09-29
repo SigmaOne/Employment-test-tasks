@@ -41,4 +41,25 @@ public class Plane implements Model {
     public Map<String, Object> getPropertiesMap() {
         return properties;
     }
+
+    @Override
+    public void updateProperty(String key, String value) {
+        // Todo: remove those same lines of code from every model
+        switch(properties.get(key).getClass().getSimpleName()) {
+            case "String":
+                properties.put(key, value);
+                break;
+            case "Integer":
+                properties.put(key, Integer.parseInt(value));
+                break;
+            case "Double":
+                properties.put(key, Double.parseDouble(value));
+                break;
+            case "Float":
+                properties.put(key, Float.parseFloat(value));
+                break;
+            default:
+                System.out.println("sht");
+        }
+    }
 }

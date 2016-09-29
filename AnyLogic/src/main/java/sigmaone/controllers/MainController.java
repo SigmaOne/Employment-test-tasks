@@ -1,81 +1,90 @@
 package sigmaone.controllers;
 
-import sigmaone.models.Oval;
-import sigmaone.models.Plane;
-import sigmaone.models.Rectangle;
-import sigmaone.models.Model;
-import sigmaone.views.MainWindow;
-import sigmaone.views.PropertiesWindow;
-
-import javax.swing.*;
+import sigmaone.models.*;
+import sigmaone.views.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+import javax.swing.*;
+import java.util.*;
 
+/**
+ * Main controller to control everything in this application
+ */
 public class MainController {
-    private MainWindow mainWindow;      // View
-    private ArrayList<Model> shapes;    // Model
+    private MainWindow mainWindow; // View in MVC
+    private ArrayList<Model> addedModels; // Model in MVC
 
     public MainController() {
-        shapes = prepareTestShapes();
+        addedModels = prepareTestShapes();
 
-        mainWindow = new MainWindow("AnyLogic test task", shapes);
+        mainWindow = new MainWindow("AnyLogic test task", addedModels);
         addViewListeners(mainWindow);
         addModelMenuItems(mainWindow);
+    }
 
+    public void run() {
         mainWindow.setVisible(true);
     }
 
     private void addViewListeners(MainWindow mainWindow) {
-        // Global exit
-        mainWindow.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent windowEvent) {
-                System.exit(0);
+        // Add process killing after window close
+        mainWindow.addWindowListener(
+            new WindowAdapter() {
+                public void windowClosing(WindowEvent windowEvent) {
+                    System.exit(0);
+                }
             }
-        });
+        );
 
         // Add menu handlers
         mainWindow.setExitMenuActionListener(
-            actionEvent -> System.exit(0)
+            exitEvent -> System.exit(0)
         );
         mainWindow.setRemoveMenuActionListener(
-            actionEvent -> {
+            removeModelEvent -> {
                 int selectedRow = this.mainWindow.getSelectedRowIndex();
-                shapes.remove(selectedRow);
-                this.mainWindow.removeRow(selectedRow);
+                addedModels.remove(selectedRow);
+                mainWindow.removeRow(selectedRow);
+                mainWindow.pack();
             }
         );
+
+        // Add table event handlers
         mainWindow.setTableClickListener(
             new MouseAdapter() {
-                 public void mousePressed(MouseEvent me) {
-                     JTable table =(JTable) me.getSource();
+                @Override
+                public void mousePressed(MouseEvent event) {
+                    if (event.getClickCount() == 2) {
+                        int i = MainController.this.mainWindow.getSelectedRowIndex();
+                        Model model = addedModels.get(i);
+                        PropertiesWindow propertiesWindow = new PropertiesWindow("Edit '" + model.getName() + "'", model);
 
-                     // Point p = me.getPoint();
-                     // int rowIndex = table.rowAtPoint(p);
+                        // Add listeners to newly created Properties Window
+                        propertiesWindow.addCancelButtonListener(
+                            cancelEvent -> {
+                                    propertiesWindow.dispose();
+                                    mainWindow.setEnabled(true);
+                                }
+                        );
+                        propertiesWindow.addAcceptButtonListener(
+                            acceptEvent -> {
+                                // Update Model
+                                HashMap<String, String> formValues = propertiesWindow.getFormValues();
+                                for(Map.Entry pair : formValues.entrySet()) {
+                                    model.updateProperty((String) pair.getKey(), (String) pair.getValue());
+                                }
+                                addedModels.set(i, model);
 
-                     if (me.getClickCount() == 2) {
-                         int i = MainController.this.mainWindow.getSelectedRowIndex();
-                         Model model = shapes.get(i);
-                         PropertiesWindow propertiesWindow = new PropertiesWindow("Edit '" + model.getName() + "'", model);
-                         propertiesWindow.addCancelButtonListener(
-                             new ActionListener() {
-                                 @Override
-                                 public void actionPerformed(ActionEvent actionEvent) {
-                                     propertiesWindow.dispose();
-                                 }
-                             }
-                         );
-                         propertiesWindow.addAcceptButtonListener(
-                             new ActionListener() {
-                                 @Override
-                                 public void actionPerformed(ActionEvent actionEvent) {
-                                     // Todo: add logic
-                                 }
-                             }
-                         );
+                                // Update View
+                                mainWindow.updateTable(addedModels);
+                                propertiesWindow.dispose();
+                                mainWindow.setEnabled(true);
+                            }
+                        );
 
-                         propertiesWindow.setVisible(true);
-                     }
-                 }
+                        mainWindow.setEnabled(false);
+                        propertiesWindow.setVisible(true);
+                    }
+                }
              }
         );
     }
@@ -88,17 +97,39 @@ public class MainController {
 
         for(Model model : models) {
             JMenuItem menuItem = new JMenuItem("Create new " + model.getType() + " model");
-
             menuItem.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
-                        new PropertiesWindow("Create new '" + model.getName() + "'", model).setVisible(true);
-                    }
+                createNewModelEvent -> {
+                    PropertiesWindow propertiesWindow = new PropertiesWindow("Create '" + model.getName() + "'", model);
+
+                    // Add listeners to newly created Properties Window
+                    propertiesWindow.addCancelButtonListener(
+                        cancelEvent -> {
+                            propertiesWindow.dispose();
+                            mainWindow.setEnabled(true);
+                        }
+                    );
+                    propertiesWindow.addAcceptButtonListener(
+                        acceptEvent -> {
+                            // Update Model
+                            HashMap<String, String> formValues = propertiesWindow.getFormValues();
+                            for (Map.Entry pair : formValues.entrySet()) {
+                                model.updateProperty((String) pair.getKey(), (String) pair.getValue());
+                            }
+                            addedModels.add(model);
+
+                            // Update View
+                            mainWindow.updateTable(addedModels);
+                            propertiesWindow.dispose();
+                            mainWindow.pack();
+                            mainWindow.setEnabled(true);
+                        }
+                    );
+
+                    mainWindow.setEnabled(false);
+                    propertiesWindow.setVisible(true);
                 }
             );
-
-            mainWindow.addModelMenuItem(menuItem);
+            mainWindow.addCreateModelMenuItem(menuItem);
         }
     }
 
