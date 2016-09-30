@@ -1,4 +1,4 @@
-package sigmaone.views;
+package sigmaone.views.propertywindows;
 
 import java.awt.event.ActionListener;
 import sigmaone.models.Model;
@@ -11,7 +11,7 @@ import java.awt.*;
 /**
  * Window to edit added models
  */
-public class PropertiesWindow extends JFrame {
+public class DefaultPropertyWindow extends JFrame implements PropertyWindow {
     private ArrayList<JLabel> keyLabels = new ArrayList<>();
     private ArrayList<JTextField> valueTextields = new ArrayList<>();
 
@@ -19,7 +19,7 @@ public class PropertiesWindow extends JFrame {
     private JButton cancelButton = new JButton("Cancel");
 
     // Todo: make all fields have fixed ordering
-    public PropertiesWindow(String headerText, Model model) {
+    public DefaultPropertyWindow(String headerText, Model model) {
         super(headerText);
         this.setSize(600, 600);
         this.setLayout(new GridBagLayout());

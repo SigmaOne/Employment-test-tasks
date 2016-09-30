@@ -2,6 +2,8 @@ package sigmaone.controllers;
 
 import sigmaone.models.*;
 import sigmaone.views.*;
+import sigmaone.views.propertywindows.DefaultPropertyWindow;
+import sigmaone.views.propertywindows.OvalPropertyWindow;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
@@ -24,9 +26,16 @@ public class MainController {
     public void run() {
         mainWindow.setVisible(true);
     }
+    private ArrayList<Model> prepareTestShapes() {
+        return new ArrayList() {{
+            add(new Oval("Earth", 2.2432, 3.23497923, 501653543.307, 501653543.307));
+            add(new Oval("Douel's head", 2, 3, 11, 6.2));
+            add(new Rectangle("My monitor", 0, 0, 11.28, 20.05));
+        }};
+    }
 
     private void addViewListeners(MainWindow mainWindow) {
-        // Add process killing after window close
+        // Add process's death after window close
         mainWindow.addWindowListener(
             new WindowAdapter() {
                 public void windowClosing(WindowEvent windowEvent) {
@@ -56,7 +65,7 @@ public class MainController {
                     if (event.getClickCount() == 2) {
                         int i = MainController.this.mainWindow.getSelectedRowIndex();
                         Model model = addedModels.get(i);
-                        PropertiesWindow propertiesWindow = new PropertiesWindow("Edit '" + model.getName() + "'", model);
+                        DefaultPropertyWindow propertiesWindow = new DefaultPropertyWindow("Edit '" + model.getName() + "'", model);
 
                         // Add listeners to newly created Properties Window
                         propertiesWindow.addCancelButtonListener(
@@ -99,7 +108,7 @@ public class MainController {
             JMenuItem menuItem = new JMenuItem("Create new " + model.getType() + " model");
             menuItem.addActionListener(
                 createNewModelEvent -> {
-                    PropertiesWindow propertiesWindow = new PropertiesWindow("Create '" + model.getName() + "'", model);
+                    DefaultPropertyWindow propertiesWindow = new DefaultPropertyWindow("Create '" + model.getName() + "'", model);
 
                     // Add listeners to newly created Properties Window
                     propertiesWindow.addCancelButtonListener(
@@ -131,13 +140,5 @@ public class MainController {
             );
             mainWindow.addCreateModelMenuItem(menuItem);
         }
-    }
-
-    private ArrayList<Model> prepareTestShapes() {
-        return new ArrayList() {{
-            add(new Oval("Earth", 2.2432, 3.23497923, 501653543.307, 501653543.307));
-            add(new Oval("Douel's head", 2, 3, 11, 6.2));
-            add(new Rectangle("My monitor", 0, 0, 11.28, 20.05));
-        }};
     }
 }
