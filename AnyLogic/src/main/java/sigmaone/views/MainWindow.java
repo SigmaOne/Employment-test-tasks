@@ -1,8 +1,6 @@
 package sigmaone.views;
 
 import sigmaone.models.Model;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;

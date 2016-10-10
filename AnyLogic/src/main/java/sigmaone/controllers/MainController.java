@@ -8,6 +8,15 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
+/*
+    Todo: Make MainController more independent from View's realization.
+    Controller should just create a view, then give it a link to himself, so view manage everything itself.
+    Is needed so controller will not be fat + no recompiling time.
+
+    Todo: Add MainWindow2 - CanvasWindow
+    For that we should add Model Observation, so MainWindow may update CanvasWindow and vice versa if model has changed
+*/
+
 /**
  * Main controller to control everything in this application
  */
