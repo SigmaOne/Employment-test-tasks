@@ -1,6 +1,6 @@
 <?php
 
-require 'db_util.php';
+require_once 'db_util.php';
 
 // CREATE
 function insertProduct($connection, $name, $description, $price, $imgUrl) {
@@ -17,6 +17,30 @@ function insertProduct($connection, $name, $description, $price, $imgUrl) {
 // Todo: add other crud operations
 
 // READ
+function getProduct($connection, $id) {
+    $sql = "select * from products where id = " . $id;
+
+    $result = mysqli_query($connection, $sql);
+    if (mysqli_num_rows($result) == 1) {
+		return mysqli_fetch_assoc($result); // return hashtable
+	} else {
+		return null;
+	}
+}
+
+function getAllProducts($connection) {
+	$sql = "select * from products";
+	$resulted_array = array();
+
+	$result = mysqli_query($connection, $sql);
+	if (mysqli_num_rows($result) > 0) {
+		while($row = mysqli_fetch_assoc($result)) {
+			array_push($resulted_array, $row);
+		}
+	}
+
+	return $resulted_array;
+}
 
 // UPDATE
 

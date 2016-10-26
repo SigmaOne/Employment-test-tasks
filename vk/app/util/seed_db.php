@@ -1,6 +1,6 @@
 <?php
 
-require 'products_crud.php';
+require_once 'products_crud.php';
 
 $connection = getDbConnection(DB_NAME);
 

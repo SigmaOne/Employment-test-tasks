@@ -1,11 +1,9 @@
-<?php require 'functions.php'; ?>                                                                                                                                                                              
-
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8" />
-    <title><?php siteName(); ?></title>
+    <title>Vk.com highload test project</title>
     <style type="text/css">
         .wrap {
            max-width: 700px;
@@ -25,7 +23,7 @@
 <div class="wrap">
 
     <header>
-        <h2><?php siteName(); ?></h2>
+        <h2>Vk.com highload test project</h2>
         <nav class="menu">
             <a href="/home">Home</a> |
             <a href="/products">Products</a> |
@@ -37,7 +35,7 @@
         <?php include $pageContent ?>
     </div>
 
-    <footer><small>&copy;<?php echo date('Y'); ?> <?php siteName(); ?>. All rights reserved.</small></footer>
+    <footer><small>&copy;<?php echo date('Y'); ?> SigmaOne. All rights reserved.</small></footer>
 </div>
 </body>
 
