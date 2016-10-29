@@ -1,7 +1,7 @@
 <?php require_once 'util/db_util.php'; ?>                                                                                                                                                                              
 <?php require_once 'util/products_crud.php'; ?>                                                                                                                                                                              
 
-<h3>Products</h3>
+<h3>Products (<a href="products/new">Add new</a>)</h3>
 
 <ol>
 <?php 

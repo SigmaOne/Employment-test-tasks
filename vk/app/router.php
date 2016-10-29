@@ -12,6 +12,9 @@ if (isResource($_SERVER["REQUEST_URI"])) {
     case '/products':
         $pageContent = "pages/products.php";
         break;
+    case '/products/new':
+        $pageContent = "pages/create_product.php";
+        break;
     case "/contacts":
         $pageContent = "pages/contacts.php";
         break;
