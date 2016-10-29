@@ -2,69 +2,73 @@
 
 define('DB_NAME', "highload_test_db");
 
-function getDBConnection($dbname) {
+function getDbConnection($dbname) {
     $servername = "localhost";
     $username = "root";
     $password = getenv("MYSQL_ROOT_PASSWORD");
 
     if ($dbname == null) {
-        $conn = mysqli_connect($servername, $username, $password);
+        $connection = mysqli_connect($servername, $username, $password);
     } else {
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
+        $connection = mysqli_connect($servername, $username, $password, $dbname);
     }
 
     // Check connection
-    if (!$conn) {
-        die("Connection failed: " . mysqli_error($conn) . PHP_EOL);
+    if (!$connection) {
+        die("Connection failed: " . mysqli_error($connection) . PHP_EOL);
     }  
 
-    return $conn;
+    return $connection;
+}
+
+function closeDbConnection($connection) {
+    mysqli_close($connection);
 }
 
 function createSchema() {
     // Create db
-    $conn = getDBConnection(null);
+    $connection = getDbConnection(null);
     $sql = "create database " . DB_NAME;
 
-    if (mysqli_query($conn, $sql)) {
+    if (mysqli_query($connection, $sql)) {
         echo "Database created successfully" . PHP_EOL;
     } else {
-        die("Error creating database: " . mysqli_error($conn) . PHP_EOL);
+        die("Error creating database: " . mysqli_error($connection) . PHP_EOL);
     }
 
-    mysqli_close($conn);
+    mysqli_close($connection);
 
     // Create table
-    $conn = getDBConnection(DB_NAME);
+    $connection = getDbConnection(DB_NAME);
     $sql = "create table products(
                 id int(6) unsigned auto_increment primary key,
                 name varchar(30) not null,
                 description varchar(255) not null,
                 price int not null,
-                url varchar(255) not null
+                img_url varchar(255) not null
             )";
 
-    if (mysqli_query($conn, $sql)) {
+    if (mysqli_query($connection, $sql)) {
         echo "Schema created successfully" . PHP_EOL;
     } else {
-        die("Error creating products table: " . mysqli_error($conn) . PHP_EOL);
+        die("Error creating products table: " . mysqli_error($connection) . PHP_EOL);
     }
 
-    mysqli_close($conn);
+    mysqli_close($connection);
 }
 
 function dropSchema() {
-    $conn = getDBConnection(DB_NAME);
+    $connection = getDbConnection(DB_NAME);
 
     $sql = "drop database " . DB_NAME;
-    if (mysqli_query($conn, $sql)) {
+    if (mysqli_query($connection, $sql)) {
         echo "Database dropped successfully" . PHP_EOL;
     } else {
         // don't die() because so
-        echo "Error dropping products table: " . mysqli_error($conn) . PHP_EOL;
+        echo "Error dropping products table: " . mysqli_error($connection) . PHP_EOL;
     }
 
-    mysqli_close($conn);
+    mysqli_close($connection);
 }
 
 ?>

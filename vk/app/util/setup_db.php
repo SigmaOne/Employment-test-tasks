@@ -1,6 +1,6 @@
 <?php
 
-require 'db_util.php';
+require_once 'db_util.php';
 
 dropSchema();
 createSchema();
