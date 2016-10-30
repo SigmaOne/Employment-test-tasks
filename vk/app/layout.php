@@ -16,6 +16,12 @@
            text-align: left;
            padding: 40px;
         }
+        .success {
+           color: green;
+        }
+        .error {
+           color: red;
+        }
     </style>
 </head>
 
