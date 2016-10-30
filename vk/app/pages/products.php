@@ -29,9 +29,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {
       echo "  <b>Price</b>: " . $product["price"] . "<br/>";
       echo "  <b>Img url</b>: <a href=\"" . $product["img_url"] . "\">url</a><br/>";
 
+      echo "  <form action=\"products/edit\" method=\"get\">";
+      echo "    <input type=\"hidden\" name=\"idToEdit\" value=\"" . $product["id"] . "\"/>";
+      echo "    <input type=\"submit\" name=\"editButton\" value=\"edit\"/>";
+      echo "  </form>";
+
       echo "  <form action=\"" . htmlspecialchars($_SERVER["PHP_SELF"]) . "\" method=\"post\">";
       echo "    <input type=\"hidden\" name=\"idToDelete\" value=\"" . $product["id"] . "\"/>";
-      echo "    <input type=\"submit\" name=\"submit\" value=\"delete?\"/>";
+      echo "    <input type=\"submit\" name=\"deleteButton\" value=\"delete?\"/>";
       echo "  </form>";
 
       echo "</li>" . PHP_EOL;

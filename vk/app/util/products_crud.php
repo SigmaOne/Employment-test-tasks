@@ -1,6 +1,7 @@
 <?php
 
 require_once 'db_util.php';
+// Todo: add good exception handling when query fails
 
 // CREATE
 function insertProduct($connection, $name, $description, $price, $imgUrl) {
@@ -11,8 +12,6 @@ function insertProduct($connection, $name, $description, $price, $imgUrl) {
         die("Error: " . $sql . "<br>" . mysqli_error($connection) . PHP_EOL);
     }
 }
-
-// Todo: add other crud operations
 
 // READ
 function getProduct($connection, $id) {
@@ -41,6 +40,13 @@ function getAllProducts($connection) {
 }
 
 // UPDATE
+function updateProduct($connection, $id, $name, $description, $price, $imgUrl) {
+    $sql = "update products set name='" . $name . "', description='" . $description . "', price='" . $price . "', img_url='" . $imgUrl . "' where id=" . $id;
+
+    if (!mysqli_query($connection, $sql)) {
+        die("Error updating record: " . mysqli_error($conn));
+    }
+}
 
 // DELETE
 function deleteProduct($connection, $id) {

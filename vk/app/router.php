@@ -15,6 +15,9 @@ if (isResource($_SERVER["REQUEST_URI"])) {
     case '/products/new':
         $pageContent = "pages/create_product.php";
         break;
+    case (preg_match('/\/products\/edit.*/', $_SERVER["REQUEST_URI"]) ? true : false):
+        $pageContent = "pages/edit_product.php";
+        break;
     case "/contacts":
         $pageContent = "pages/contacts.php";
         break;
