@@ -14,6 +14,7 @@ $imgUrl = $product["img_url"];
 $nameError = $descriptionError = $priceError = $imgUrlError = ""; 
 
 // If form is submitted
+// Todo: remove duplication with create_product.php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Todo: add validation
     $id = $_POST["id"];
@@ -29,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($description)) {
         $descriptionError = "Description is required";
     }
-    if (empty($price) || !is_numeric($price)) {
-        $priceError = "Price is required and should be numeric";
+    if (empty($price) || !is_numeric($price) || $price < 0) {
+        $priceError = "Price is required and should be numeric and more then zero";
     }
     if (empty($imgUrl) || !filter_var($imgUrl, FILTER_VALIDATE_URL)) {
         $imgUrlError = "Image url should be valid and not null";

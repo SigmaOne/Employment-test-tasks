@@ -21,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($description)) {
         $descriptionError = "Description is required";
     }
-    if (empty($price) || !is_numeric($price)) {
-        $priceError = "Price is required and should be numeric";
+    if (empty($price) || !is_numeric($price) || $price < 0) {
+        $priceError = "Price is required, should be numeric and more then zero";
     }
     if (empty($imgUrl) || !filter_var($imgUrl, FILTER_VALIDATE_URL)) {
         $imgUrlError = "Image url should be valid and not null";

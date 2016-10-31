@@ -29,12 +29,56 @@ function getAllProducts($connection) {
 	$sql = "select * from products";
 	$resulted_array = array();
 
-	$result = mysqli_query($connection, $sql);
-	if (mysqli_num_rows($result) > 0) {
-		while($row = mysqli_fetch_assoc($result)) {
-			array_push($resulted_array, $row);
+	if ($result = mysqli_query($connection, $sql)) {
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)) {
+				array_push($resulted_array, $row);
+			}
 		}
+	} else {
+		die("Cannot fetch all products");
 	}
+
+	return $resulted_array;
+}
+
+
+// $firstIndex and last index are used to get products from interval
+// e.g. getProductsSortedById($connection, 1, 5) will return first 5 products
+//
+function getProductsSortedById($connection, $firstIndex, $lastIndex) {
+	$sql = "select * from products limit " . ($lastIndex - $firstIndex + 1) . " offset " . ($firstIndex - 1);
+	$resulted_array = array();
+
+	if ($result = mysqli_query($connection, $sql)) {
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                array_push($resulted_array, $row);
+            }
+        }
+    } else {
+        die("Cannot fetch products Sorted by Id");
+    }
+
+	return $resulted_array;
+}
+
+// $firstIndex and last index are used to get products from interval
+// e.g. getProductsSortedById($connection, 1, 5) will return first 5 products
+//
+function getProductsSortedByPrice($connection, $firstIndex, $lastIndex) {
+	$sql = "select * from products order by price limit " . ($lastIndex - $firstIndex + 1) . " offset " . ($firstIndex - 1);
+	$resulted_array = array();
+
+	if ($result = mysqli_query($connection, $sql)) {
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                array_push($resulted_array, $row);
+            }
+        }
+    } else {
+        die("Cannot fetch products Sorted by Price");
+    }
 
 	return $resulted_array;
 }

@@ -1,7 +1,23 @@
 <?php require_once 'util/db_util.php'; ?>                                                                                                                                                                              
 <?php require_once 'util/products_crud.php'; ?>                                                                                                                                                                              
 
-<h3>Products (<a href="products/new">Add new</a>)</h3>
+<script>
+	function changeSortBySelect(selectBy) {
+		//alert(selectBy);
+		window.location = "/products?sortBy=" + selectBy;
+	}
+</script>
+
+<h3>Products (<a href="products/new">Add new</a>)
+Order by:
+    <select id="sortBySelect" onchange="changeSortBySelect(value);">
+	  <option value="id" selected="" >id</option>
+	  <option value="price" <?php if ($_GET["sortBy"] === price) echo "selected=\"selected\""; ?> >price</option>
+	</select> 
+</h3>
+<!--//  -->
+
+<hr/>
 
 <?php
 
@@ -18,12 +34,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {
 
 <ol>
 <?php 
-    $connection = getDbConnection(DB_NAME);
-    $products = getAllProducts($connection);
 
+    $connection = getDbConnection(DB_NAME);
+
+    switch($_GET["sortBy"]) {
+    default:
+    case "id":
+        $products = getProductsSortedById($connection, 1, 100);
+        break;
+    case "price":
+        $products = getProductsSortedByPrice($connection, 1, 100);
+        break;
+	case "none":
+		$products = getAllProducts($connection);
+		break;
+    }
+
+	
     foreach($products as $product) {
       echo "<li>" . PHP_EOL;
 
+      echo "  <b>Id</b>: " . $product["id"] . "<br/>";
       echo "  <b>Name</b>: " . $product["name"] . "<br/>";
       echo "  <b>Description</b>: " . $product["description"] . "<br/>";
       echo "  <b>Price</b>: " . $product["price"] . "<br/>";
