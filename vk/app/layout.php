@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Vk.com highload test project</title>
+
     <style type="text/css">
         .wrap {
            max-width: 700px;
@@ -23,26 +24,28 @@
            color: red;
         }
     </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 
 <body>
-<div class="wrap">
+    <div class="wrap">
 
-    <header>
-        <h2>Vk.com highload test project</h2>
-        <nav class="menu">
-            <a href="/home">Home</a> |
-            <a href="/products">Products</a> |
-            <a href="/contacts">Contacts</a>
-        </nav>
-    </header>
+        <header>
+            <h2>Vk.com highload test project</h2>
+            <nav class="menu">
+                <a href="/home">Home</a> |
+                <a href="/products">Products</a> |
+                <a href="/contacts">Contacts</a>
+            </nav>
+        </header>
 
-    <div class="content">
-        <?php include $pageContent ?>
+        <div class="content">
+            <?php include $pageContent ?>
+        </div>
+
+        <footer><small>&copy;<?php echo date('Y'); ?> SigmaOne. All rights reserved.</small></footer>
     </div>
-
-    <footer><small>&copy;<?php echo date('Y'); ?> SigmaOne. All rights reserved.</small></footer>
-</div>
 </body>
 
 </html>
