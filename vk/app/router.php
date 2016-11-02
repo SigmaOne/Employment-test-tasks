@@ -43,5 +43,3 @@ case (preg_match('/\/getAdditionalProducts.*/', $_SERVER["REQUEST_URI"]) ? true 
 case (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"]) ? true : false):
     return false;
 }
-
-?>

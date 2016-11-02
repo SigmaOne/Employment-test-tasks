@@ -1,5 +1,16 @@
-<?php require_once 'util/db_util.php'; ?>
-<?php require_once 'util/products_crud.php'; ?>
+<?php
+require_once 'util/db_util.php';
+require_once 'util/products_crud.php';
+
+// Handle 'delete?' button's request to delete product
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {
+    $connection = getDbConnection(DB_NAME);
+    deleteProduct($connection, $_POST["idToDelete"]);
+    closeDbConnection($connection);
+
+    echo "<h1>Sucessfully deleted product with id = " . $_POST["idToDelete"] . "</h1>";
+}
+?>
 
 <script>
     // Add get parameter to current url and then redirect
@@ -7,23 +18,24 @@
 		key = encodeURI(key); value = encodeURI(value);
 		var kvp = document.location.search.substr(1).split('&');
 
-		var i=kvp.length; var x; while(i--) {
+		var i = kvp.length; var x; while(i--) {
 			x = kvp[i].split('=');
 
-			if (x[0]==key) {
+			if (x[0] == key) {
 				x[1] = value;
 				kvp[i] = x.join('=');
 				break;
 			}
 		}
 
-		if(i < 0) {
-			kvp[kvp.length] = [key,value].join('=');
+		if (i < 0) {
+			kvp[kvp.length] = [key, value].join('=');
 		}
 
-		//this will reload the page, it's likely better to store this until finished
+		// This will reload the page, it's likely better to store this until finished
 		document.location.search = kvp.join('&'); 
 	}
+
     function findGetParameter(parameterName) {
         var result = null, tmp = [];
         location.search .substr(1) .split("&") .forEach(function (item) {
@@ -43,6 +55,7 @@
 		insertParam("itemsAmount", itemsAmount);
     }
 
+    // Upload additional product instances with AJAX call when user scrolled down to the bottom
     $(window).scroll(function () {
         if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
             var xmlhttp = new XMLHttpRequest();
@@ -55,7 +68,7 @@
             
             var displayedProductsLength = document.getElementById("products_list").getElementsByTagName("li").length;
             var from = displayedProductsLength + 1;
-            var to = from + 10;
+            var to = from + 10; // 10 is just an empirical constant which is ok here in my opinion
             var sortBy = findGetParameter("sortBy");
             if (sortBy == null) {
                 sortBy = "id";
@@ -69,40 +82,28 @@
 
 <h2>Products (<a href="products/new">Add new</a>)</h2>
 <p>
-Order by:
-    <select id="sortBySelect" onchange="changeSortBySelect(value);">
-	  <option value="id" <?php if ($_GET["sortBy"] === "id") echo "selected=\"selected\""; ?> >id</option>
-	  <option value="price" <?php if ($_GET["sortBy"] === "price") echo "selected=\"selected\""; ?> >price</option>
-	</select> 
-
-Items on page: 
-    <select id="itemsOnPageSelect" onchange="changeItemsOnPageSelect(value);">
-	  <option value="10"      <?php if ($_GET["itemsAmount"] == 10)      echo "selected=\"selected\""; ?> >10</option>
-	  <option value="25"      <?php if ($_GET["itemsAmount"] == 25)      echo "selected=\"selected\""; ?> >25</option>
-	  <option value="50"      <?php if ($_GET["itemsAmount"] == 50)      echo "selected=\"selected\""; ?> >50</option>
-	  <option value="100"     <?php if ($_GET["itemsAmount"] == 100)     echo "selected=\"selected\""; ?> >100</option>
-	  <option value="1000"    <?php if ($_GET["itemsAmount"] == 1000)    echo "selected=\"selected\""; ?> >1000</option>
-	  <option value="10000"   <?php if ($_GET["itemsAmount"] == 10000)   echo "selected=\"selected\""; ?> >10000</option>
-	  <option value="100000"  <?php if ($_GET["itemsAmount"] == 100000)  echo "selected=\"selected\""; ?> >100000</option>
-	  <option value="1000000" <?php if ($_GET["itemsAmount"] == 1000000) echo "selected=\"selected\""; ?> >100000</option>
-	</select> 
-<hr/>
+  Order by:
+  <select id="sortBySelect" onchange="changeSortBySelect(value);">
+    <option value="id" <?php if ($_GET["sortBy"] === "id") echo "selected=\"selected\""; ?> >id</option>
+    <option value="price" <?php if ($_GET["sortBy"] === "price") echo "selected=\"selected\""; ?> >price</option>
+  </select> 
+  
+  Items on page: 
+  <select id="itemsOnPageSelect" onchange="changeItemsOnPageSelect(value);">
+    <option value="10"      <?php if ($_GET["itemsAmount"] == 10)      echo "selected=\"selected\""; ?> >10</option>
+    <option value="25"      <?php if ($_GET["itemsAmount"] == 25)      echo "selected=\"selected\""; ?> >25</option>
+    <option value="50"      <?php if ($_GET["itemsAmount"] == 50)      echo "selected=\"selected\""; ?> >50</option>
+    <option value="100"     <?php if ($_GET["itemsAmount"] == 100)     echo "selected=\"selected\""; ?> >100</option>
+    <option value="1000"    <?php if ($_GET["itemsAmount"] == 1000)    echo "selected=\"selected\""; ?> >1000</option>
+    <option value="10000"   <?php if ($_GET["itemsAmount"] == 10000)   echo "selected=\"selected\""; ?> >10000</option>
+    <option value="100000"  <?php if ($_GET["itemsAmount"] == 100000)  echo "selected=\"selected\""; ?> >100000</option>
+    <option value="1000000" <?php if ($_GET["itemsAmount"] == 1000000) echo "selected=\"selected\""; ?> >100000</option>
+  </select> 
+  <hr/>
 </p>
-
-<?php
-// Handle 'delete?' button if POST
-if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {
-    $connection = getDbConnection(DB_NAME);
-    deleteProduct($connection, $_POST["idToDelete"]);
-    closeDbConnection($connection);
-
-    echo "<h1>Sucessfully deleted product with id = " . $_POST["idToDelete"] . "</h1>";
-}
-?>
 
 <ol id="products_list" >
 <?php 
-
 $itemsAmount = empty($_GET["itemsAmount"]) ? 10 : $_GET["itemsAmount"];
 
 $connection = getDbConnection(DB_NAME);
@@ -118,7 +119,7 @@ case "price":
 closeDbConnection($connection);
 
 foreach($products as $product) {
-    echo "<li>" . PHP_EOL;
+    echo "<li>";
 
     echo "  <b>Id</b>: " . $product["id"] . "<br/>";
     echo "  <b>Name</b>: " . $product["name"] . "<br/>";
@@ -136,9 +137,8 @@ foreach($products as $product) {
     echo "    <input type=\"submit\" name=\"deleteButton\" value=\"delete?\"/>";
     echo "  </form>";
 
-    echo "</li>" . PHP_EOL;
+    echo "</li>";
     echo "<br/>";
 }
-
 ?>
 </ol>

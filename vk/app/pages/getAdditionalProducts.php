@@ -40,5 +40,3 @@ foreach($products as $product) {
   echo "</li>" . PHP_EOL;
   echo "<br/>";
 }
-
-?>

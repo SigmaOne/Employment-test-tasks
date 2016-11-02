@@ -1,22 +1,20 @@
-<?php require_once 'util/db_util.php'; ?>                                                                                                                                                                              
-<?php require_once 'util/products_crud.php'; ?>                                                                                                                                                                              
-<?php require_once 'util/input_validation.php'; ?>
-
 <?php
+require_once 'util/db_util.php';
+require_once 'util/products_crud.php';
+require_once 'util/input_validation.php';
 
 $connection = getDbConnection(DB_NAME);
-$product = getProduct($connection, $_GET["idToEdit"]);
 
+$product = getProduct($connection, $_GET["idToEdit"]);
 $name = $product["name"];
 $description = $product["description"];
 $price = $product["price"];
 $imgUrl = $product["img_url"];
 $nameError = $descriptionError = $priceError = $imgUrlError = ""; 
 
-// If form is submitted
 // Todo: remove duplication with create_product.php
+// Handle 'edit_product' form submition
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Todo: add validation
     $id = $_POST["id"];
     $name = format_input($_POST["name"]);
     $description = format_input($_POST["description"]);
@@ -41,12 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         updateProduct($connection, $id, $name, $description, $price, $imgUrl);
         echo "<h1 class=\"success\">Success updating product with id = " . $id . " in db</h1>";
     } else {
-        echo "<h1 class=\"error\">Failure updating to db</h1>";
+        echo "<h1 class=\"error\">Form validation failed</h1>";
     }
 }
 
 closeDbConnection($connection);
-
 ?>
 
 <h3>Create new product</h3>

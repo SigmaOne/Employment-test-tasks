@@ -1,7 +1,5 @@
 <?php
-
 require_once 'db_util.php';
-// Todo: add good exception handling when query fails
 
 // CREATE
 function insertProduct($connection, $name, $description, $price, $imgUrl) {
@@ -100,5 +98,3 @@ function deleteProduct($connection, $id) {
         die("Error deleting record: " . mysqli_error($conn));
     }
 }
-
-?>

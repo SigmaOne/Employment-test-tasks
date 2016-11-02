@@ -6,5 +6,3 @@ function format_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
-
-?>

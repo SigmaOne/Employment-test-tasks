@@ -1,14 +1,13 @@
-<?php require_once 'util/db_util.php'; ?>                                                                                                                                                                              
-<?php require_once 'util/products_crud.php'; ?>                                                                                                                                                                              
-<?php require_once 'util/input_validation.php'; ?>
-
 <?php
+require_once 'util/db_util.php';
+require_once 'util/products_crud.php';
+require_once 'util/input_validation.php';
 
 $name = $description = $price = $imgUrl = ""; 
 $nameError = $descriptionError = $priceError = $imgUrlError = ""; 
 
+// Handle 'create_product' form submition
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Todo: add validation
     $name = format_input($_POST["name"]);
     $description = format_input($_POST["description"]);
     $price = format_input($_POST["price"]);
@@ -39,15 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Todo: Add redirect to 'products/'
     } else {
-        echo "<h1 class=\"error\">Failure saving to db</h1>";
+        echo "<h1 class=\"error\">Form validation failed</h1>";
     }
 }
-
 ?>
 
 <h3>Create new product</h3>
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+<form id="create_product" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
   Name: 
   <span class="error">* <?php echo $nameError; ?></span><br/>
   <input type="text" name="name" value="<?php echo $name; ?>"/><br/>
