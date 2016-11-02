@@ -1,17 +1,26 @@
 # About
-Test highload project i made to be accepted to the vk-dev team
+Simple, stable to high load system i designed to be accepted to the vk-dev team.  
 
-# Project structure
-  * functions.php - right now it's just a collection for a general purpose functions
-  * router.php - declares routing mechanisms
-  * layout.php - layout(wrapper) for all the site's pages.
+## Key features
+* Supports large - 1000000 items in db.
+* System is pretty stable with 1000 requests per minute.
+* Page load time is less then 500ms because of memcached additional tier.
+
+## Requirements
+  * PHP7
+  * MySQL
+  * Memcached
+
+## Project structure
+  * router.php - declares routing mechanics
+  * layout.php - layout(wrapper) for all the site's HTML pages.
   * pages/* - route handlers
-  * util/* - util test scripts which were used in my developing process
+  * util/* - util functions and scripts which were used in my developing process
+  * resources/* - .js, .css and image files
 
-# Requirements
-  * php7
-
-# How to run
+## How to run
 ```bash
+# Setup MySQL
+# Setup Memcached
 php -S localhost:8000 router.php
 ```

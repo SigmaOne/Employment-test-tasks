@@ -1,5 +1,4 @@
 <?php
-
 define('DB_NAME', "highload_test_db");
 
 function getDbConnection($dbname) {
@@ -70,5 +69,3 @@ function dropSchema() {
 
     mysqli_close($connection);
 }
-
-?>
