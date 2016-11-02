@@ -56,14 +56,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {
     }
 
     // Upload additional product instances with AJAX call when user scrolled down to the bottom
+    //
+    var ajaxLock = false; // Is needed so ajax call below will not be called twice with the same parameters;
     $(window).scroll(function () {
-        if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+        if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10 && ajaxLock != true) {
+            ajaxLock = true;
             var xmlhttp = new XMLHttpRequest();
             
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("products_list").innerHTML += this.responseText;
                 }
+                ajaxLock = false;
             };
             
             var displayedProductsLength = document.getElementById("products_list").getElementsByTagName("li").length;
