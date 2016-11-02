@@ -3,9 +3,7 @@ require_once 'util/db_util.php';
 require_once 'util/products_crud.php';
 require_once 'util/input_validation.php';
 
-$connection = getDbConnection(DB_NAME);
-
-$product = getProduct($connection, $_GET["idToEdit"]);
+$product = getProduct($_GET["idToEdit"]);
 $name = $product["name"];
 $description = $product["description"];
 $price = $product["price"];
@@ -36,14 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($nameError) && empty($descriptionError) && empty($priceError) && empty($imgUrlError)) {
-        updateProduct($connection, $id, $name, $description, $price, $imgUrl);
+        updateProduct($id, $name, $description, $price, $imgUrl);
         echo "<h1 class=\"success\">Success updating product with id = " . $id . " in db</h1>";
     } else {
         echo "<h1 class=\"error\">Form validation failed</h1>";
     }
 }
-
-closeDbConnection($connection);
 ?>
 
 <h3>Create new product</h3>
