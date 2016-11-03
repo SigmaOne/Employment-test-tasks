@@ -3,7 +3,8 @@ require_once 'util/db_util.php';
 require_once 'util/products_crud.php';
 require_once 'util/input_validation.php';
 
-$product = getProduct($_GET["idToEdit"]);
+$product = getProduct($_GET["idToEdit"] ?: $_POST["id"]);
+$id = $product["id"];
 $name = $product["name"];
 $description = $product["description"];
 $price = $product["price"];
@@ -45,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <h3>Create new product</h3>
 
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-  <input type="hidden" name="id" value="<?php echo $_GET["idToEdit"]; ?>">
+  <input type="hidden" name="id" value="<?php echo $id; ?>">
 
   Name: 
   <span class="error">* <?php echo $nameError; ?></span><br/>
