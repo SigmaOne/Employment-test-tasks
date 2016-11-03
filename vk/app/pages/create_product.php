@@ -29,14 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($nameError) && empty($descriptionError) && empty($priceError) && empty($imgUrlError)) {
         // Add new product to db
-        $connection = getDbConnection(DB_NAME);
-        insertProduct($connection, $name, $description, $price, $imgUrl);
-        closeDbConnection($connection);
+        insertProduct($name, $description, $price, $imgUrl);
 
         $name = $description = $price = $imgUrl = ""; 
         echo "<h1 class=\"success\">Success saving to db</h1>";
 
-        // Todo: Add redirect to 'products/'
+        // Todo: Add redirect to 'products/' after insertion
     } else {
         echo "<h1 class=\"error\">Form validation failed</h1>";
     }

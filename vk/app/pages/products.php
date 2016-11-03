@@ -4,10 +4,7 @@ require_once 'util/products_crud.php';
 
 // Handle 'delete?' button's request to delete product
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {
-    $connection = getDbConnection(DB_NAME);
-    deleteProduct($connection, $_POST["idToDelete"]);
-    closeDbConnection($connection);
-
+    deleteProduct($_POST["idToDelete"]);
     echo "<h1>Sucessfully deleted product with id = " . $_POST["idToDelete"] . "</h1>";
 }
 ?>
@@ -56,7 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {
     }
 
     // Upload additional product instances with AJAX call when user scrolled down to the bottom
-    //
     var ajaxLock = false; // Is needed so ajax call below will not be called twice with the same parameters;
     $(window).scroll(function () {
         if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10 && ajaxLock != true) {
@@ -72,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {
             
             var displayedProductsLength = document.getElementById("products_list").getElementsByTagName("li").length;
             var from = displayedProductsLength + 1;
-            var to = from + 10; // 10 is just an empirical constant which is ok here in my opinion
+            var to = from + 9; // 10 items is just an empirical constant which is ok here in my opinion
             var sortBy = findGetParameter("sortBy");
             if (sortBy == null) {
                 sortBy = "id";
@@ -101,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {
     <option value="1000"    <?php if ($_GET["itemsAmount"] == 1000)    echo "selected=\"selected\""; ?> >1000</option>
     <option value="10000"   <?php if ($_GET["itemsAmount"] == 10000)   echo "selected=\"selected\""; ?> >10000</option>
     <option value="100000"  <?php if ($_GET["itemsAmount"] == 100000)  echo "selected=\"selected\""; ?> >100000</option>
-    <option value="1000000" <?php if ($_GET["itemsAmount"] == 1000000) echo "selected=\"selected\""; ?> >100000</option>
+    <option value="1000000" <?php if ($_GET["itemsAmount"] == 1000000) echo "selected=\"selected\""; ?> >1000000</option>
   </select> 
   <hr/>
 </p>
@@ -110,17 +106,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {
 <?php 
 $itemsAmount = empty($_GET["itemsAmount"]) ? 10 : $_GET["itemsAmount"];
 
-$connection = getDbConnection(DB_NAME);
 switch($_GET["sortBy"]) {
 default:
 case "id":
-    $products = getProductsSortedById($connection, 1, $itemsAmount);
+    $products = getProductsSortedById(1, $itemsAmount);
     break;
 case "price":
-    $products = getProductsSortedByPrice($connection, 1, $itemsAmount);
+    $products = getProductsSortedByPrice(1, $itemsAmount);
     break;
 }
-closeDbConnection($connection);
 
 foreach($products as $product) {
     echo "<li>";

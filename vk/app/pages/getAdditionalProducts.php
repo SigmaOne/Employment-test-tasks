@@ -6,17 +6,15 @@ $from = $_GET["from"];
 $to = $_GET["to"];
 $sortBy = $_GET["sortBy"];
 
-$connection = getDbConnection(DB_NAME);
 switch($_GET["sortBy"]) {
 default:
 case "id":
-    $products = getProductsSortedById($connection, $from, $to);
+    $products = getProductsSortedById($from, $to);
     break;
 case "price":
-    $products = getProductsSortedByPrice($connection, $from, $to);
+    $products = getProductsSortedByPrice($from, $to);
     break;
 }
-closeDbConnection($connection);
 
 foreach($products as $product) {
   echo "<li>" . PHP_EOL;
