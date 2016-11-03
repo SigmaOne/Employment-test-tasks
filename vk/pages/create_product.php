@@ -1,4 +1,7 @@
 <?php
+// File to create new product in db
+// Todo: Fix undefined index errors
+
 require_once 'lib/products_crud.php';
 require_once 'lib/input_validation.php';
 

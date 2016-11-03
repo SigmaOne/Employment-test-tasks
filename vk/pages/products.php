@@ -1,4 +1,7 @@
 <?php
+// File to show all the products from db. From here you can edit/delete/create products
+// Todo: Fix undefined index errors
+
 require_once 'lib/products_crud.php';
 
 // Handle 'delete?' button's request to delete product
