@@ -1,6 +1,5 @@
 <?php 
-require_once 'util/db_util.php';
-require_once 'util/products_crud.php';
+require_once 'lib/products_crud.php';
 
 $from = $_GET["from"];
 $to = $_GET["to"];

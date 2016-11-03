@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- My main layout. All the pages is included in his <div class="content"></div> tag-->
 <html>
 
 <head>

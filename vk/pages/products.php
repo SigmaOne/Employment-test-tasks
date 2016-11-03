@@ -1,6 +1,5 @@
 <?php
-require_once 'util/db_util.php';
-require_once 'util/products_crud.php';
+require_once 'lib/products_crud.php';
 
 // Handle 'delete?' button's request to delete product
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {

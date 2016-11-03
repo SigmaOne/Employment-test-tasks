@@ -1,4 +1,6 @@
 <?php
+// Contains basic functions to work with MySQL
+
 define('DB_NAME', "highload_test_db");
 
 function getDbConnection($dbname) {

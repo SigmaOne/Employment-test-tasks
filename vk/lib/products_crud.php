@@ -1,6 +1,8 @@
 <?php
-require_once 'db_util.php';
-require_once 'memcached_util.php';
+// Contains all the CRUD operations on products
+
+require_once 'lib/db_util.php';
+require_once 'lib/products_cache_crud.php';
 
 define('SORTED_BY_ID_BASE_KEY', "products:sortedById");
 define('SORTED_BY_PRICE_BASE_KEY', "products:sortedByPrice");

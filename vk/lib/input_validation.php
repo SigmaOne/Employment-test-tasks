@@ -1,4 +1,6 @@
 <?php
+// Contains function for form validations :\
+// Todo: Cosider removing
 
 function format_input($data) {
     $data = trim($data);
