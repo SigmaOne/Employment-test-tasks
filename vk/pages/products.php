@@ -1,6 +1,8 @@
 <?php
-require_once 'util/db_util.php';
-require_once 'util/products_crud.php';
+// File to show all the products from db. From here you can edit/delete/create products
+// Todo: Fix undefined index errors
+
+require_once 'lib/products_crud.php';
 
 // Handle 'delete?' button's request to delete product
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["idToDelete"])) {

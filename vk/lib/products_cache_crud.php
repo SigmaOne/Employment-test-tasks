@@ -1,11 +1,12 @@
 <?php
-require_once 'db_util.php';
+// Contains all the CRUD caching operations on products
 
-// Standard product's schema in my architecure is that:
+// Standard product's schema in my architecure is like so:
 //
 // products
 //   :sortedBySomething
-//     :seed (current seed) //     :xyz (seed 1)
+//     :seed (current seed) 
+//     :xyz (seed 1)
 //       :1
 //         :id 
 //         :name
@@ -29,6 +30,8 @@ require_once 'db_util.php';
 //   products:sortedByPrice
 //
 // $baseProductKey in this example is "products:sortedBySomething:xyz:1" or "products:sortedBySomething:xyz:2"
+
+require_once 'lib/products_crud.php';
 
 // --- 'private' functions used only in this module ---
 function getProductByBaseProductKey($mc, $baseProductKey) {

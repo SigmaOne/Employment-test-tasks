@@ -1,4 +1,6 @@
 <?php
+// Main router which handles all the reques mapping
+// Server is started with him like so "php -S localhost:8000 router.php"
 
 switch($_SERVER["REQUEST_URI"]) {
 

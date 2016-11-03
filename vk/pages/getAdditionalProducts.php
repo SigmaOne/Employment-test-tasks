@@ -1,6 +1,8 @@
 <?php 
-require_once 'util/db_util.php';
-require_once 'util/products_crud.php';
+// File to get Additional products as <li></li> elements. Is used with ajax calls
+// Todo: Fix undefined index errors
+
+require_once 'lib/products_crud.php';
 
 $from = $_GET["from"];
 $to = $_GET["to"];
