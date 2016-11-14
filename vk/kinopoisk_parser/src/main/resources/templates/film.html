@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title th:text="Film"/>
+    <title>Film #</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />
 </head>
 
-<!-- Todo: Add film's images -->
 <body>
     <dataset th:object="${film}">
-        <label>Name:</label>
+        <img th:src="${film.imgUrl}" /> <br/>
+
+        <b>Рейтинг:</b>
+        <a th:text="${film.rank}"/> <br/>
+
+        <b>Имя:</b>
         <label th:text="${film.name}"/> <br/>
 
-        <label>Year:</label>
+        <b>Год выпуска:</b>
         <label th:text="${film.year}"/> <br/>
 
-        <label>Country:</label>
+        <b>Страна:</b>
         <label th:text="${film.country}"/> <br/>
 
-        <label>Genre:</label>
-        <label th:text="${film.genre}"/> <br/><br/>
+        <b>Жанр:</b>
+        <label th:text="${film.genres}"/> <br/><br/>
     </dataset>
 </body>
 </html>
