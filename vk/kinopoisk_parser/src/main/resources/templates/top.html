@@ -11,11 +11,12 @@
 <body>
     <h1>Top films</h1>
 
-    <ol>
+    <ul style="list-style-type:none">
         <li th:each="film : ${films}">
+            <label th:text="${film.rank} + @{ . }" />
             <a th:href="@{/films/} + ${film.id}" th:text="${film.name} + @{ - }"/>
             <label th:text="${film.genres}"/> <br/>
         </li>
-    </ol>
+    </ul>
 </body>
 </html>

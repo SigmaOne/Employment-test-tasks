@@ -3,6 +3,7 @@ package vk.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 import vk.models.repositories.FilmRepository;
@@ -29,31 +30,32 @@ public class FilmsController {
 
     @ResponseBody
     @RequestMapping("/top/update")
-    public String updateTop() {
-        String topUrl = "https://www.kinopoisk.ru/top/";
-        int rank = 0; // Wanna to initialize here, so i can count how much films were updated when the exception comes
+    public String updateTop(@RequestParam(value = "from", required = false) Integer from,
+                            @RequestParam(value = "to", required = false) Integer to) throws Exception {
+        Document topPage = Jsoup.connect("https://www.kinopoisk.ru/top/").get();
+        int filmsAmount = grabFilmsAmount(topPage);
 
-        try {
-            Document topPage = Jsoup.connect(topUrl).get();
-            int filmsAmount = grabFilmsAmount(topPage);
-
-            for(rank = 1; rank <= filmsAmount; rank++) {
-                String filmUrl = topPage.select("#top250_place_" + rank + " a[href]").first().attr("abs:href");
-                Document filmPage = Jsoup.connect(filmUrl).get();
-                Film film = grabFilm(filmPage);
-
-                // Post grabbing
-                long id = grabIdFromFilmUrl(filmUrl);
-                film.setId(id);
-                film.setRank(rank);
-
-                filmRepository.save(film);
-            }
-
-            return "Grabbing succeeded. All " + filmsAmount + " films were updated";
-        } catch (Exception e) {
-            return "Grabbing failed. Updated first " + rank + " films. Exception" + e.getMessage();
+        // Request Parameters validation
+        from = (from == null)? 1 : from;
+        to = (to == null)? filmsAmount : to;
+        if (from > to || from < 1 || to > filmsAmount) {
+            throw new Exception("'From' cannot be more then 'to', 'from' should be > 0, 'to' should be <= " + filmsAmount);
         }
+
+        for(int rank = from; rank <= to; rank++) {
+            String filmUrl = topPage.select("#top250_place_" + rank + " a[href]").first().attr("abs:href");
+            Document filmPage = Jsoup.connect(filmUrl).get();
+            Film film = grabFilm(filmPage);
+
+            // Post grabbing
+            long id = grabIdFromFilmUrl(filmUrl);
+            film.setId(id);
+            film.setRank(rank);
+
+            filmRepository.save(film);
+        }
+
+        return "Grabbing succeeded. Films from " + from + " to " + to + " were updated";
     }
 
     @RequestMapping("/films/{id}")
