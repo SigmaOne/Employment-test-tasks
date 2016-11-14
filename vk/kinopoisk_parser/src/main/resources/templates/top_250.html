@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Login form</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />
+</head>
+
+<!-- Todo: Add film's images -->
+<body>
+    <h1>Top 250 films</h1>
+
+    <ol>
+        <li th:each="film : ${films}">
+            <label>Rank:</label>
+            <a th:text="${film.id}"/> <br/>
+
+            <label>Name:</label>
+            <a th:href="@{/top_250/} + ${film.id}" th:text="${film.name}"/><br/>
+
+            <label>Year:</label>
+            <label th:text="${film.year}"/> <br/>
+
+            <label>Country:</label>
+            <label th:text="${film.country}"/> <br/>
+
+            <label>Genre:</label>
+            <label th:text="${film.genre}"/> <br/><br/>
+        </li>
+    </ol>
+</body>
+</html>
