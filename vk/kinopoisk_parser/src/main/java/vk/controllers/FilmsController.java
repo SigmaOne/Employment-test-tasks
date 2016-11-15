@@ -41,9 +41,10 @@ public class FilmsController {
         return "film";
     }
 
-    @RequestMapping("films/top/update")
-    public String updateTop(@RequestParam(value = "from", required = false) Integer from,
-                            @RequestParam(value = "to", required = false) Integer to) throws Exception {
+    @RequestMapping("films/top/refresh")
+    public String refreshTop(Model model,
+                             @RequestParam(value = "from", required = false) Integer from,
+                             @RequestParam(value = "to", required = false) Integer to) throws Exception {
         Document topPage = Jsoup.connect("https://www.kinopoisk.ru/top/").get();
         int filmsAmount = grabFilmsAmount(topPage);
 
@@ -66,6 +67,8 @@ public class FilmsController {
             filmRepository.save(film);
         }
 
+        List<Film> films = filmRepository.findByRankNotNullOrderByRankAsc();
+        model.addAttribute("films", films);
         return "top_films";
     }
 
@@ -82,8 +85,13 @@ public class FilmsController {
             String country = infoTable.get(1).select("a").text();
             String genres = infoTable.get(10).select("a").text();
 
+            // Sometimes genres may be a row upper
+            if (matchRegex(genres, "\\$\\d+")) {
+                genres = infoTable.get(9).select("a").text();
+            }
+
             // Post processing for readability
-            genres = genres.replace("слова", ""); // There are not genre <a/> in a row
+            genres = genres.replace("слова", ""); // There may be this strange link
             genres = genres.replace(" ... ", "");
             genres = genres.replace(" ", ", ");
 
@@ -106,5 +114,11 @@ public class FilmsController {
         } else {
             throw new Exception("Cannot grab film id");
         }
+    }
+    public boolean matchRegex(String text, String regex) {
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(text);
+
+        return m.find();
     }
 }

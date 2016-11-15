@@ -14,7 +14,7 @@ import vk.models.Film;
 public class FilmsControllerTests {
     private FilmsController filmsController = new FilmsController();
 
-	@Test public void grabFilmTest() throws IOException {
+	@Test public void grabFilmTest() throws Exception {
 		String filmUrl = "https://www.kinopoisk.ru/film/535341/";
         Film film = filmsController.grabFilm(filmUrl);
 
@@ -38,4 +38,10 @@ public class FilmsControllerTests {
         Long result = filmsController.grabIdFromFilmUrl("https://www.kinopoisk.ru/film/535341/");
         assert(result == 535341);
 	}
+
+	@Test public void matchRegexTest() {
+	    String moneyRegex = "\\$\\d+";
+	    assert(filmsController.matchRegex("$322", moneyRegex));
+        assert(!filmsController.matchRegex("триллер, комедия, криминал", moneyRegex));
+    }
 }
