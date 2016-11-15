@@ -11,7 +11,6 @@ import org.jsoup.select.Elements;
 import org.jsoup.nodes.Document;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.IOException;
 import org.jsoup.Jsoup;
 import vk.models.Film;
 import java.util.List;
@@ -29,7 +28,7 @@ public class FilmsController {
     }
 
     @RequestMapping("/films/{id}")
-    public String showFilm(@PathVariable long id, Model model) throws IOException {
+    public String showFilm(@PathVariable long id, Model model) throws Exception {
         Film film = filmRepository.findOne(id);
         if (film == null) {
             String filmUrl = "https://www.kinopoisk.ru/film/" + id + "/";
@@ -71,23 +70,28 @@ public class FilmsController {
     }
 
 
-    public Film grabFilm(String filmUrl) throws IOException {
+    public Film grabFilm(String filmUrl) throws Exception {
         Document html = Jsoup.connect(filmUrl).get();
 
-        String name = html.select("#headerFilm h1").text();
-        String imgUrl = html.select("a.popupBigImage img").first().attr("abs:src");
+        try {
+            String name = html.select("#headerFilm h1").text();
+            String imgUrl = html.select("a.popupBigImage img").first().attr("abs:src");
 
-        Elements infoTable = html.select("#infoTable tr");
-        String year = infoTable.get(0).select("a").text();
-        String country = infoTable.get(1).select("a").text();
-        String genres = infoTable.get(10).select("a").text();
+            Elements infoTable = html.select("#infoTable tr");
+            String year = infoTable.get(0).select("a").text();
+            String country = infoTable.get(1).select("a").text();
+            String genres = infoTable.get(10).select("a").text();
 
-        // Post processing for readability
-        genres = genres.replace("слова", ""); // There are not genre <a/> in a row
-        genres = genres.replace(" ... ", "");
-        genres = genres.replace(" ", ", ");
+            // Post processing for readability
+            genres = genres.replace("слова", ""); // There are not genre <a/> in a row
+            genres = genres.replace(" ... ", "");
+            genres = genres.replace(" ", ", ");
 
-        return new Film(name, imgUrl, year, country, genres);
+            return new Film(name, imgUrl, year, country, genres);
+        }
+        catch(Exception ex) {
+            throw new Exception("No such film with that id registered at Kinopoisk");
+        }
     }
     public int grabFilmsAmount(Document html) {
         return html.select("tr[id^=\"top250_place_\"]").size();
