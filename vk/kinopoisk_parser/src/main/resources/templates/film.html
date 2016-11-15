@@ -1,31 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Film #</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css' />
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />
+    <title>Film</title>
 </head>
-
 <body>
-    <dataset th:object="${film}">
-        <img th:src="${film.imgUrl}" /> <br/>
+    <div layout:fragment="content" class="container">
+        <dataset th:object="${film}">
+            <img th:src="${film.imgUrl}" /> <br/>
 
-        <b>Рейтинг:</b>
-        <a th:text="${film.rank}"/> <br/>
+            <b>Рейтинг:</b>
+            <a th:text="${film.rank}"/> <br/>
 
-        <b>Имя:</b>
-        <label th:text="${film.name}"/> <br/>
+            <b>Имя:</b>
+            <label th:text="${film.name}"/> <br/>
 
-        <b>Год выпуска:</b>
-        <label th:text="${film.year}"/> <br/>
+            <b>Год выпуска:</b>
+            <label th:text="${film.year}"/> <br/>
 
-        <b>Страна:</b>
-        <label th:text="${film.country}"/> <br/>
+            <b>Страна:</b>
+            <label th:text="${film.country}"/> <br/>
 
-        <b>Жанр:</b>
-        <label th:text="${film.genres}"/> <br/><br/>
-    </dataset>
+            <b>Жанр:</b>
+            <label th:text="${film.genres}"/> <br/><br/>
+        </dataset>
+    </div>
 </body>
 </html>
+

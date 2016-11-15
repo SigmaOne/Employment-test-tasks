@@ -1,22 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
 <head>
-    <title>Top</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css' />
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />
+    <title>Customer : View all</title>
 </head>
-
 <body>
-    <h1>Top films</h1>
+    <div layout:fragment="content" class="container">
+        <h2>Top films</h2>
 
-    <ul style="list-style-type:none">
-        <li th:each="film : ${films}">
-            <label th:text="${film.rank} + @{ . }" />
-            <a th:href="@{/films/} + ${film.id}" th:text="${film.name} + @{ - }"/>
-            <label th:text="${film.genres}"/> <br/>
-        </li>
-    </ul>
+        <ul style="list-style-type:none">
+            <li th:each="film : ${films}">
+                <label th:text="${film.rank} + @{ . }" />
+                <a th:href="@{/films/} + ${film.id}" th:text="${film.name} + @{ - }"/>
+                <label th:text="${film.genres}"/> <br/>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>

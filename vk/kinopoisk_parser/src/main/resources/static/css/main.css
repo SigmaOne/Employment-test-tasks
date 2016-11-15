@@ -1,0 +1,23 @@
+header {
+    text-align: center;
+}
+footer {
+    text-align: center;
+}
+h1 {
+    text-align: center;
+}
+h2 {
+    text-align: center;
+}
+
+.wrap {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    box-shadow: 0 0 5px rgba(0,0,0,.5);
+}
+.content {
+    text-align: left;
+    padding: 40px;
+}

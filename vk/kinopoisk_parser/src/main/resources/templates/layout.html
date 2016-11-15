@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>Layout</title>
+    <title>Film #</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <h1>Kinopoisk parser</h1>
+        </header>
+
+        <div layout:fragment="content" class="content">
+            Content to be replaced
+        </div>
+
+        <footer><small>&copy;2016 SigmaOne. All rights reserved.</small></footer>
+    </div>
+</body>
+</html>
