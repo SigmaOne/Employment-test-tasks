@@ -10,6 +10,8 @@ import vk.models.repositories.FilmRepository;
 import org.springframework.ui.Model;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
@@ -28,6 +30,20 @@ public class FilmsController {
         return "top";
     }
 
+    @RequestMapping("/films/{id}")
+    public String showFilm(@PathVariable long id, Model model) throws IOException {
+        Film film = filmRepository.findOne(id);
+        if (film == null) {
+            String filmUrl = "https://www.kinopoisk.ru/film/" + id + "/";
+            film = grabFilm(filmUrl);
+            film.setId(id);
+            filmRepository.save(film);
+        }
+        model.addAttribute("film", film);
+
+        return "film";
+    }
+
     @ResponseBody
     @RequestMapping("/top/update")
     public String updateTop(@RequestParam(value = "from", required = false) Integer from,
@@ -44,8 +60,7 @@ public class FilmsController {
 
         for(int rank = from; rank <= to; rank++) {
             String filmUrl = topPage.select("#top250_place_" + rank + " a[href]").first().attr("abs:href");
-            Document filmPage = Jsoup.connect(filmUrl).get();
-            Film film = grabFilm(filmPage);
+            Film film = grabFilm(filmUrl);
 
             // Post grabbing
             long id = grabIdFromFilmUrl(filmUrl);
@@ -58,15 +73,9 @@ public class FilmsController {
         return "Grabbing succeeded. Films from " + from + " to " + to + " were updated";
     }
 
-    @RequestMapping("/films/{id}")
-    public String showFilm(@PathVariable long id, Model model) {
-        Film film = filmRepository.findOne(id);
-        model.addAttribute("film", film);
+    private Film grabFilm(String filmUrl) throws IOException {
+        Document html = Jsoup.connect(filmUrl).get();
 
-        return "film";
-    }
-
-    private Film grabFilm(Document html) {
         String name = html.select("#headerFilm h1").text();
         String imgUrl = html.select("a.popupBigImage img").first().attr("abs:src");
 

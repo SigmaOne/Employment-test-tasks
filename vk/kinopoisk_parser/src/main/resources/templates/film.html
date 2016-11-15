@@ -6,7 +6,7 @@
 <body>
     <div layout:fragment="content" class="container">
         <dataset th:object="${film}">
-            <img th:src="${film.imgUrl}" /> <br/>
+            <img class="cover" th:src="${film.imgUrl}" /> <br/>
 
             <b>Рейтинг:</b>
             <a th:text="${film.rank}"/> <br/>
