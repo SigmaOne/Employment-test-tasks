@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+    <div layout:fragment="content" class="container">
+        <dataset th:object="${film}">
+            <img th:src="${film.imgUrl}" class="cover"/> <br/>
+
+            <b>Имя:</b>
+            <label th:text="${film.name}"/> <br/>
+
+            <div th:if="${film.rank != null}">
+                <b class="red">Рейтинг:</b>
+                <a th:text="${film.rank}" /> <br/>
+            </div>
+
+            <b>Жанр:</b>
+            <label th:text="${film.genres}"/> <br/>
+
+            <b>Год выпуска:</b>
+            <label th:text="${film.year}"/> <br/>
+
+            <b>Страна:</b>
+            <label th:text="${film.country}"/> <br/>
+        </dataset>
+
+        <br/>
+        <a href="/films/top">back</a>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,27 @@
+header {
+    text-align: center;
+    margin-bottom: 1cm;
+}
+footer {
+    text-align: center;
+    clear:left;
+}
+
+.wrap {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    box-shadow: 0 0 5px rgba(0,0,0,.5);
+}
+.content {
+    text-align: left;
+    padding: 40px;
+}
+.red {
+    color: red;
+}
+.cover {
+    border:2px solid black;
+    float: left;
+    margin-right: 30px
+}
