@@ -37,3 +37,7 @@ build/
 
 # vim swap files
 *.swp
+
+**/gradle/
+**/.gradle/
+**/.idea/

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
+<body>
+    <div layout:fragment="content" class="container">
+        <h3>Top films(<a href="/films/top/refresh">Refresh</a>)</h3>
+
+        <ul style="list-style-type:none">
+            <li th:each="film : ${films}">
+                <label th:text="${film.rank} + @{ . }" />
+                <a th:href="@{/films/} + ${film.id}" th:text="${film.name} + @{ - }"/>
+                <label th:text="${film.genres}"/> <br/>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
