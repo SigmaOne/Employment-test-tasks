@@ -4,12 +4,7 @@ header {
 }
 footer {
     text-align: center;
-}
-h1 {
-    text-align: center;
-}
-h2 {
-    text-align: center;
+    clear:left;
 }
 
 .wrap {
@@ -22,6 +17,11 @@ h2 {
     text-align: left;
     padding: 40px;
 }
+.red {
+    color: red;
+}
 .cover {
-    border: 1px Black;
+    border:2px solid black;
+    float: left;
+    margin-right: 30px
 }

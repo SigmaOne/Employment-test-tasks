@@ -11,7 +11,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 jar {
@@ -33,7 +32,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter')
 	compile('mysql:mysql-connector-java')
-	compile('org.jsoup:jsoup:1.10.1') // For grabbing
+	compile('org.jsoup:jsoup:1.10.1') // Grabbing library
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -9,7 +9,7 @@ import lombok.Data;
 @Table(name = "films")
 public class Film {
     @Id private long id;
-    private Integer rank;
+    private Integer rank; // top n'th by Kinopoisk's opinion
 
     @NotNull private String imgUrl;
     @NotNull private String name;

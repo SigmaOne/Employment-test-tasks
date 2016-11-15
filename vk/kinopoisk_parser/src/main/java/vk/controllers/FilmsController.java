@@ -4,16 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 import vk.models.repositories.FilmRepository;
 import org.springframework.ui.Model;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Document;
-
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.IOException;
 import org.jsoup.Jsoup;
 import vk.models.Film;
 import java.util.List;
@@ -22,12 +20,12 @@ import java.util.List;
 public class FilmsController {
     @Autowired FilmRepository filmRepository;
 
-    @RequestMapping("/top")
+    @RequestMapping({"/*", "/films/top"})
     public String showTop(Model model) {
         List<Film> films = filmRepository.findByRankNotNullOrderByRankAsc();
         model.addAttribute("films", films);
 
-        return "top";
+        return "top_films";
     }
 
     @RequestMapping("/films/{id}")
@@ -44,8 +42,7 @@ public class FilmsController {
         return "film";
     }
 
-    @ResponseBody
-    @RequestMapping("/top/update")
+    @RequestMapping("films/top/update")
     public String updateTop(@RequestParam(value = "from", required = false) Integer from,
                             @RequestParam(value = "to", required = false) Integer to) throws Exception {
         Document topPage = Jsoup.connect("https://www.kinopoisk.ru/top/").get();
@@ -70,10 +67,11 @@ public class FilmsController {
             filmRepository.save(film);
         }
 
-        return "Grabbing succeeded. Films from " + from + " to " + to + " were updated";
+        return "top_films";
     }
 
-    private Film grabFilm(String filmUrl) throws IOException {
+
+    public Film grabFilm(String filmUrl) throws IOException {
         Document html = Jsoup.connect(filmUrl).get();
 
         String name = html.select("#headerFilm h1").text();
@@ -84,16 +82,17 @@ public class FilmsController {
         String country = infoTable.get(1).select("a").text();
         String genres = infoTable.get(10).select("a").text();
 
-        // Post handling - remove not 'genre' links
-        genres = genres.replace("слова", "");
-        genres = genres.replace("... ", "");
+        // Post processing for readability
+        genres = genres.replace("слова", ""); // There are not genre <a/> in a row
+        genres = genres.replace(" ... ", "");
+        genres = genres.replace(" ", ", ");
 
         return new Film(name, imgUrl, year, country, genres);
     }
-    private int grabFilmsAmount(Document html) {
+    public int grabFilmsAmount(Document html) {
         return html.select("tr[id^=\"top250_place_\"]").size();
     }
-    private Long grabIdFromFilmUrl(String url) throws Exception {
+    public Long grabIdFromFilmUrl(String url) throws Exception {
         Pattern p = Pattern.compile("film/(\\d+)/");
         Matcher m = p.matcher(url);
 

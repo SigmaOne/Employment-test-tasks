@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
       layout:decorator="layout">
-<head>
-    <title>Customer : View all</title>
-</head>
 <body>
     <div layout:fragment="content" class="container">
-        <h2>Top films</h2>
+        <h3>Top films(<a href="/films/top/update">Refresh</a>)</h3>
 
         <ul style="list-style-type:none">
             <li th:each="film : ${films}">
